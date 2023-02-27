@@ -1,0 +1,48 @@
+# mellifluous brainstorming
+
+- **API list**
+    - Music data APIs for searching songs/artists/albums
+        - [MusicBrainz API](https://musicbrainz.org/doc/MusicBrainz_API)
+            - Pros/Cons
+                - Pros:
+                    - Has a ***lot*** of data.
+                - Cons:
+                    - Documentation is really verbose and may take a bit more energy to consume/understand.
+            - API
+                - Base URL –  `https://musicbrainz.org/ws/2/`
+            - Important notes:
+                - No API key, but [must have meaningful user-agent string](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings).
+                - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`
+    - APIs for streaming music audio
+        - [SoundCloud API](https://developers.soundcloud.com/)
+            - Pros/Cons
+                - Pros:
+                    - Might contain more “underground” tracks that may be convenient to show as potential tracks user can play
+                - Cons:
+                    - Streaming music seems **********extremely********** verbose.. still unsure how it functions and whether it’s worth the effort.
+            - Idea for streaming with this API
+                - Once you have the track’s `media.transcodings`, take the first one* and do a `GET` request to its `url`.
+                    - *There will be multiple transcodings, and I don’t really know much about them at the moment, so do some research to see if there’s a preferrable one or if you need to do something with all the transcoding.
+                - This will return another `url` which points to the `[m3u](https://en.wikipedia.org/wiki/M3U)` file which contains a list of links which point to “chunks” of the audio.
+                - Extract all the urls from this file and sequentially do a `GET` request for every url and append the data into an array buffer. [See here for reference.](https://github.com/Tenpi/soundcloud.ts/blob/2d5b5318083555ac7b31af631f1267a3c31bfe30/entities/Util.ts#L74)
+                - I’m not entirely sure what to do with the array buffer here, but since it should be a readable stream, maybe figure out a way to have the `audio` element “read” from this buffer? Or convert the buffer to something that `audio` element can consume (`[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)`)?
+        - [audiomack API](https://www.audiomack.com/data-api/docs)
+            - This API is a ***lot*** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.
+            - Some nits about authorization
+                - On the *Obtaining an Unauthorized Request Token* section, it indicates something to do with OAuth. Use [this](https://github.com/ddo/oauth-1.0a) library to conveniently handle that. Specifically, follow what is done with the `request_data` object.
+    - APIs for finding song lyrics
+        - [Genius API](https://docs.genius.com/)
+            - API has a pretty good amount of music data. Might be worth using this for the searching functionality instead of the MusicBrainz API.
+            - Another pro is that I can just use the Genius API’s song id to find the associated song lyrics instead of some strange workaround to link a MusicBrainz API song to Genius API song lyrics elegantly.
+    - APIs for finding similar songs/artists
+        - [last.fm API](https://www.last.fm/api)
+            - This API also supports finding similar artists and songs. Might be more reputable than the TasteDive API
+        - [~~TasteDive API~~](https://tastedive.com/read/api)
+            - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
+            - **********************************************************************************************Decided not to go with this API because the documentation is lacking considerably.**********************************************************************************************
+    - APIs for additional features
+        - [KSoft API](https://docs.ksoft.si/api/lyrics-api)
+            - This API returns LRC data; might be able to sync with audio file for a “sing-a-long”?
+                - [This article](https://dev.to/mcanam/javascript-lyric-synchronizer-4i15) is a convenient tutorial for “syncing” an LRC file to audio (maybe for “karaoke”-like functionality)
+            - The only problem I can foresee at the moment is that the LRC data can only be synced with an OST (i.e., no remixes). How to determine if the audio playing is an OST?
+                - A suboptimal workaround is to have some sort of note or highlight to the user that the “sing-a-long” feature will only synchronize properly with original sound tracks (OST).
