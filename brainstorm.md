@@ -51,3 +51,31 @@
     - Audio player (built from scratch ideally)
     - “sing-a-long” lyric capability if the implementation is sound
     - Light/dark mode
+- Pages
+    - Home page
+        - Similar to **synopedia**, have a search bar where users can search for a song, artist, or album.
+            - Maybe allow for filtering and sorting?
+        - Alternatively, supply home page with “trending” songs, artists, etc?
+    - Search results page
+        - Section off artists, albums, and songs
+    - Artist page
+        - Show artist biography
+        - Show artist’s albums
+        - Show any other artist information that would be neat to show
+            - Probably check what else the API returns and/or check music or artist information websites for inspiration
+    - Album page
+        - Show album metadata (but w/o biography)
+        - Show songs in this album
+        - Show link to all artist’s albums page?
+    - Song page
+        - Show song metadata
+        - See if Lyrics API returns lyrics for this song
+            - Show something to indicate “can’t find lyrics for this song” if it doesn’t
+            - If lyrics exist, show lyrics and attempt to sync the LRC data returned from the API to have “sing-a-long” highlighting based on the current timestamp of the audio player
+        - Ping music streaming API to find a result list of songs that align with the song page’s name
+            - Clicking on any of the tracks will show a sticky bottom audio player (similar to SoundCloud)
+            - Create your own audio player?
+                - Might be nice to get some experience in that
+        - Show section for similar songs?
+            - Should it also show similar artists or albums or would that be overkill?
+                - Alternatively, maybe show similar “content” based on the page? (e.g., artist’s page ~> similar artists, album’s page ~> similar albums (wait I don’t know if the API actually returns this), song’s page ~> similar songs
