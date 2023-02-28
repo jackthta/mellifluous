@@ -46,3 +46,8 @@
                 - [This article](https://dev.to/mcanam/javascript-lyric-synchronizer-4i15) is a convenient tutorial for “syncing” an LRC file to audio (maybe for “karaoke”-like functionality)
             - The only problem I can foresee at the moment is that the LRC data can only be synced with an OST (i.e., no remixes). How to determine if the audio playing is an OST?
                 - A suboptimal workaround is to have some sort of note or highlight to the user that the “sing-a-long” feature will only synchronize properly with original sound tracks (OST).
+- Features
+    - Search bar w/ sorting and filtering functionality
+    - Audio player (built from scratch ideally)
+    - “sing-a-long” lyric capability if the implementation is sound
+    - Light/dark mode
