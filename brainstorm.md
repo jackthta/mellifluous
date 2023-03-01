@@ -26,6 +26,7 @@
                 - This will return another `url` which points to the `[m3u](https://en.wikipedia.org/wiki/M3U)` file which contains a list of links which point to “chunks” of the audio.
                 - Extract all the urls from this file and sequentially do a `GET` request for every url and append the data into an array buffer. [See here for reference.](https://github.com/Tenpi/soundcloud.ts/blob/2d5b5318083555ac7b31af631f1267a3c31bfe30/entities/Util.ts#L74)
                 - I’m not entirely sure what to do with the array buffer here, but since it should be a readable stream, maybe figure out a way to have the `audio` element “read” from this buffer? Or convert the buffer to something that `audio` element can consume (`[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)`)?
+                - [Another example of doing an HTTP request for an mp3 file and using the `arraybuffer` response type](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#web_audio_api)
         - [audiomack API](https://www.audiomack.com/data-api/docs)
             - This API is a ***lot*** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.
             - Some nits about authorization
@@ -49,6 +50,11 @@
 - Features
     - Search bar w/ sorting and filtering functionality
     - Audio player (built from scratch ideally)
+        - [MDN – Customizing Your Media Player](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#customizing_your_media_player)
+        - [MDN – Cross-browser audio basics](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Cross-browser_audio_basics#creating_your_own_custom_audio_player)
+        - `[HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement)` – might be good to be familiar with its API (for stuff like moving the current playback time via the `currentTime`, etc)
+        - [Media buffering, seeking, and time ranges](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges)
+        - It might be helpful to look at some audio JS libraries to see how they did it and perhaps find inspiration.
     - “sing-a-long” lyric capability if the implementation is sound
     - Light/dark mode
 - Pages
@@ -79,3 +85,11 @@
         - Show section for similar songs?
             - Should it also show similar artists or albums or would that be overkill?
                 - Alternatively, maybe show similar “content” based on the page? (e.g., artist’s page ~> similar artists, album’s page ~> similar albums (wait I don’t know if the API actually returns this), song’s page ~> similar songs
+- Tech stack
+    - HTML5
+    - CSS3, PostCSS, CSS Modules
+    - React
+    - Redux
+    - TanStack Router
+    - JavaScript, TypeScript
+    - Webpack
