@@ -52,9 +52,15 @@
     - Audio player (built from scratch ideally)
         - [MDN – Customizing Your Media Player](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#customizing_your_media_player)
         - [MDN – Cross-browser audio basics](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Cross-browser_audio_basics#creating_your_own_custom_audio_player)
+        - [MDN – Web Audio API best practices](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices)
         - `[HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement)` – might be good to be familiar with its API (for stuff like moving the current playback time via the `currentTime`, etc)
         - [Media buffering, seeking, and time ranges](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges)
+        - `[BaseAudioContext.decodeAudioData()](https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData)` – this might be helpful for audio tracks returned from the audiomack API
+            - [More info](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques#loading_the_sample)
         - It might be helpful to look at some audio JS libraries to see how they did it and perhaps find inspiration.
+            - Cross browser and legacy supported Web Audio JS libraries
+                - [standardized-audio-context](https://github.com/chrisguttandin/standardized-audio-context)
+                - [howler.js](https://howlerjs.com/)
     - “sing-a-long” lyric capability if the implementation is sound
     - Light/dark mode
 - Pages
