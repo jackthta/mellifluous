@@ -109,3 +109,7 @@
         - [5](https://dribbble.com/shots/16122973-Web-Music-Player-Retro) – Cool audio spectrum waveform visualization effect
         - [6](https://dribbble.com/shots/19838351-Music-Player-Website-Design-Concept) – This shows a song lyrics non-modal
         - [7](https://dribbble.com/shots/8547900-Online-Music-Service)
+- Notes
+    - Slogan
+        - Music is good.
+        - Music is mellifluous.
