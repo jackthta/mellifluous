@@ -100,3 +100,12 @@
     - TanStack Router
     - JavaScript, TypeScript
     - Webpack
+- Design inspiration
+    - Audio Player
+        - [1](https://dribbble.com/shots/6864110-Music-Player-Daily-UI-009)
+        - [2](https://dribbble.com/shots/19725272-Music-Media-Player-Portal-Concept-UXUI)
+        - [3](https://dribbble.com/shots/18240691-Music-Player-Portal-Concept-UI-UX)
+        - [4](https://dribbble.com/shots/15282492-Playo-Web-Music-player) – I kind of like how the album poster glows a bit
+        - [5](https://dribbble.com/shots/16122973-Web-Music-Player-Retro) – Cool audio spectrum waveform visualization effect
+        - [6](https://dribbble.com/shots/19838351-Music-Player-Website-Design-Concept) – This shows a song lyrics non-modal
+        - [7](https://dribbble.com/shots/8547900-Online-Music-Service)
