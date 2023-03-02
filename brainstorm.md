@@ -63,6 +63,7 @@
                 - [howler.js](https://howlerjs.com/)
     - “sing-a-long” lyric capability if the implementation is sound
     - Light/dark mode
+    - Maybe use an elegant typeface (w/ a flower?) for the brand “home button”
 - Pages
     - Home page
         - Similar to **synopedia**, have a search bar where users can search for a song, artist, or album.
