@@ -112,6 +112,10 @@
         - [5](https://dribbble.com/shots/16122973-Web-Music-Player-Retro) – Cool audio spectrum waveform visualization effect
         - [6](https://dribbble.com/shots/19838351-Music-Player-Website-Design-Concept) – This shows a song lyrics non-modal
         - [7](https://dribbble.com/shots/8547900-Online-Music-Service)
+- Font
+    - [Grafolita Script](https://fonts.adobe.com/fonts/grafolita-script#fonts-section) or [Tersely](https://www.fontspace.com/tersely-font-f76720) — brand text
+        - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
+    - [Switzer](https://www.fontshare.com/fonts/switzer) — header and body text
 - Notes
     - Slogan
         - Music is good.
