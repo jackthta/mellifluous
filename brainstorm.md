@@ -100,6 +100,9 @@
     - TanStack Router
     - JavaScript, TypeScript
     - Webpack
+        - autoprefixer
+        - eslint
+        - stylelint
 - Design inspiration
     - Audio Player
         - [1](https://dribbble.com/shots/6864110-Music-Player-Daily-UI-009)
