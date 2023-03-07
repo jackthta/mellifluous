@@ -118,7 +118,8 @@
 - Font
     - [Grafolita Script](https://fonts.adobe.com/fonts/grafolita-script#fonts-section) or [Tersely](https://www.fontspace.com/tersely-font-f76720) — brand text
         - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
-    - [Switzer](https://www.fontshare.com/fonts/switzer) — header and body text
+    - [Switzer](https://www.fontshare.com/fonts/switzer) — headline and body text
+        - Note: for headlines, decrease the letter spacing to have it mimick a suitable headline typeface.
 - Notes
     - Slogan
         - Music is good.
