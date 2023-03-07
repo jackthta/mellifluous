@@ -1,10 +1,34 @@
 # mellifluous brainstorming
 
 - **API list**
-    - API for searching songs/artists/albums and finding song lyrics
-        - [Genius API](https://docs.genius.com/)
-            - API has a pretty good amount of music data. Might be worth using this for the searching functionality instead of the MusicBrainz API.
-            - Another pro is that I can just use the Genius API’s song id to find the associated song lyrics instead of some strange workaround to link a MusicBrainz API song to Genius API song lyrics elegantly.
+    - API for searching songs/artists/albums
+        - [MusicBrainz API](https://musicbrainz.org/doc/MusicBrainz_API)
+            - Pros/Cons
+                - Pros:
+                    - Has a ***lot*** of data.
+                    - It contains a *****lot***** of “relationship” links. Can potentially use this to validate for verified official artists in SoundCloud API results to find OSTs.
+                    - Strong [search API](https://musicbrainz.org/doc/Search)
+                - Cons:
+                    - Documentation is really verbose and may take a bit more energy to consume/understand.
+                    - Both a pro and con, but this API returns very minuete details. Might take some additional effort to comb through and cherry pick only the data that is needed.
+            - Searching
+                - Artists
+                    - Type: Artist
+                        - This search works really well with direct database search. If the user types in the artist’s name correctly, it will most of the time result in one result (the one they’re looking for).
+                - Albums
+                    - Type: Release (not Release Group)
+                        - Use indexed search with advanced query syntax.
+                            - Example query: `how to be human AND artist:"chelsea cutler" AND country:XW`
+                                - `XW` — worldwide
+                        - Note: will need to dedupe (maybe choose the duplicate that has more metadata?) with a preferrence for the album that has no suffix “tag” in the name (e.g., *******(clean), (explicit), (explicit, 24bit/44.1kHz)*******, etc)
+                - Songs
+                    - Type: Recording (not Release Group)
+                        - Use indexed search with advanced query syntax.
+                            - Example query: `please AND artist:"chelsea cutler" AND country:XW`
+            - Important notes:
+                - Base URL –  `https://musicbrainz.org/ws/2/`
+                - No API key, but [must have meaningful user-agent string](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings).
+                - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`
     - APIs for streaming music audio
         - [SoundCloud API](https://developers.soundcloud.com/)
             - Pros/Cons
@@ -23,33 +47,24 @@
             - This API is a ***lot*** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.
             - Some nits about authorization
                 - On the *Obtaining an Unauthorized Request Token* section, it indicates something to do with OAuth. Use [this](https://github.com/ddo/oauth-1.0a) library to conveniently handle that. Specifically, follow what is done with the `request_data` object.
-    - APIs for finding similar songs/artists
+    - API for finding similar songs/artists
         - [last.fm API](https://www.last.fm/api)
             - This API also supports finding similar artists and songs. Might be more reputable than the TasteDive API
         - [~~TasteDive API~~](https://tastedive.com/read/api)
             - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
             - **********************************************************************************************Decided not to go with this API because the documentation is lacking considerably.**********************************************************************************************
-    - APIs for additional features
+    - API for finding lyrics
+        - [Genius API](https://docs.genius.com/) — [index](https://genius.com/api-clients)
+            - The public API does not support many features.. at best, it can return song lyrics. An idea I have to figure out how to seamlessly find lyrics to a song from the MusicBrainz API is to compare the Genius relationship link to a Genius API result’s `primary_artist.url` and if it’s the same, then ****that**** song returned from the Genius API is from the official artist.
+            - ~~API has a pretty good amount of music data. Might be worth using this for the searching functionality instead of the MusicBrainz API.~~
+            - ~~Another pro is that I can just use the Genius API’s song id to find the associated song lyrics instead of some strange workaround to link a MusicBrainz API song to Genius API song lyrics elegantly.~~
+    - API(s) for additional features
         - [KSoft API](https://docs.ksoft.si/api/lyrics-api)
             - This API returns LRC data; might be able to sync with audio file for a “sing-a-long”?
                 - [This article](https://dev.to/mcanam/javascript-lyric-synchronizer-4i15) is a convenient tutorial for “syncing” an LRC file to audio (maybe for “karaoke”-like functionality)
             - The only problem I can foresee at the moment is that the LRC data can only be synced with an OST (i.e., no remixes). How to determine if the audio playing is an OST?
                 - ~~A suboptimal workaround is to have some sort of note or highlight to the user that the “sing-a-long” feature will only synchronize properly with original sound tracks (OST).~~
                 - Another potential solution: with the chosen lyrics returned from the Genius API, do a lyric match with every result returned from this API and if the first one with a match greater than 90% or so, use that for the sing-a-long feature. If none match above that threshold, maybe note that there is no sing-a-long for those lyrics.
-    - ~~Music data APIs for searching songs/artists/albums~~
-        - [~~MusicBrainz API~~](https://musicbrainz.org/doc/MusicBrainz_API)
-            - Pros/Cons
-                - Pros:
-                    - Has a ***lot*** of data.
-                    - It contains a *****lot***** of “relationship” links. Can potentially use this to validate for verified official artists in SoundCloud API results to find OSTs.
-                - Cons:
-                    - Documentation is really verbose and may take a bit more energy to consume/understand.
-                    - Both a pro and con, but this API returns very minuete details. Might take some additional effort to comb through and cherry pick only the data that is needed.
-            - API
-                - Base URL –  `https://musicbrainz.org/ws/2/`
-            - Important notes:
-                - No API key, but [must have meaningful user-agent string](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings).
-                - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`
 - Features
     - Search bar w/ sorting and filtering functionality
     - Audio player (built from scratch ideally)
