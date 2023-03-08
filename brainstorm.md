@@ -81,14 +81,23 @@
                 - [howler.js](https://howlerjs.com/)
     - “sing-a-long” lyric capability if the implementation is sound
     - Light/dark mode
-    - Maybe use an elegant typeface (w/ a flower?) for the brand “home button”
+    - Maybe use an elegant typeface for the brand “home button” text
+        - Place a little more effort in animating it this time: type writing animation starting with “m”? and then slant it?
 - Pages
     - Home page
         - Similar to **synopedia**, have a search bar where users can search for a song, artist, or album.
             - Maybe allow for filtering and sorting?
-        - Alternatively, supply home page with “trending” songs, artists, etc?
+        - ~~Alternatively, supply home page with “trending” songs, artists, etc?~~
+            - MusicBrainz API doesn’t support this kind of feature
+        - Use this [generator](https://bgjar.com/curve-line) once you settle on a primary brand color
+            - Might be worth just setting the background color via CSS and take the curve line SVG and embed it?
+        - Have the slogan above main search bar fill in the “Music is _” slogan with a variety of words based whenever the homepage is re-rendered.
     - Search results page
-        - Section off artists, albums, and songs
+        - Have results in a table
+            - ~~Infinite scroll~~, “Load more” button, or pagination?
+                - Pagination allows for user to “save” page results in a URL but may add some complexity if sorting is to be added.
+                    - Pagination can only work if the API supports it
+                - “Load more” can be a backup.
     - Artist page
         - Show artist biography
         - Show artist’s albums
@@ -98,6 +107,7 @@
         - Show album metadata (but w/o biography)
         - Show songs in this album
         - Show link to all artist’s albums page?
+        - Maybe something fancy is to have you able to “flip” through their albums
     - Song page
         - Show song metadata
         - See if Lyrics API returns lyrics for this song
