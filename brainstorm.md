@@ -130,6 +130,12 @@
         - [5](https://dribbble.com/shots/16122973-Web-Music-Player-Retro) – Cool audio spectrum waveform visualization effect
         - [6](https://dribbble.com/shots/19838351-Music-Player-Website-Design-Concept) – This shows a song lyrics non-modal
         - [7](https://dribbble.com/shots/8547900-Online-Music-Service)
+    - Search bar
+        - [1](https://dribbble.com/shots/19205028--Smart-Search) — I like the square “clear” button
+        - Search bar layout to account for MusicBrainz’s limitation (need to be more specific to narrow down searches)
+            - [1](https://dribbble.com/shots/14649429-Jobseeker-Landing-Page) — I like the idea of having an icon to indicate the “type” of input
+            - [2](https://dribbble.com/shots/14039384-Travel-search-form-exploration-V2) — ⭐️ Ooooh an idea is to have the search bar just have input1 (aka the main input – e.g., song name for type song, album name for type album) with a filter button. When that is clicked, more inputs are inserted into the search bar with the exception of type artist (have it be disabled) since there aren’t any more specific inputs that can be added.
+            - [3](https://dribbble.com/shots/9683197-Traveland-website) — pretty elegant sharp design
 - Font
     - [Grafolita Script](https://fonts.adobe.com/fonts/grafolita-script#fonts-section) or [Tersely](https://www.fontspace.com/tersely-font-f76720) — brand text
         - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
