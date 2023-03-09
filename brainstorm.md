@@ -50,6 +50,7 @@
     - API for finding similar songs/artists
         - [last.fm API](https://www.last.fm/api)
             - This API also supports finding similar artists and songs. Might be more reputable than the TasteDive API
+            - On second thought.. this might not work.. Using this API to show similar artists to the current artist will work, but only at a visual capacity. There is no workflow that allows for that similar artist returned from this API to map to the artist entity from the MusicBrainz API. An idea I thought was to do a MusicBrainz API search with the similar artist’s name returned from this API and choose the first one hoping that the artist’s name will be unique enough, but what if the artist’s name is generic? But is it good UX to show similar artists, but can’t conveniently click onto them to see their artist page?
         - [~~TasteDive API~~](https://tastedive.com/read/api)
             - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
             - **********************************************************************************************Decided not to go with this API because the documentation is lacking considerably.**********************************************************************************************
@@ -100,9 +101,9 @@
                 - “Load more” can be a backup.
     - Artist page
         - Show artist biography
+            - Artists’ socials
         - Show artist’s albums
-        - Show any other artist information that would be neat to show
-            - Probably check what else the API returns and/or check music or artist information websites for inspiration
+        - Show similar artists
     - Album page
         - Show album metadata (but w/o biography)
         - Show songs in this album
