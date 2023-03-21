@@ -59,6 +59,8 @@
             - The public API does not support many features.. at best, it can return song lyrics. An idea I have to figure out how to seamlessly find lyrics to a song from the MusicBrainz API is to compare the Genius relationship link to a Genius API result’s `primary_artist.url` and if it’s the same, then ****that**** song returned from the Genius API is from the official artist.
             - ~~API has a pretty good amount of music data. Might be worth using this for the searching functionality instead of the MusicBrainz API.~~
             - ~~Another pro is that I can just use the Genius API’s song id to find the associated song lyrics instead of some strange workaround to link a MusicBrainz API song to Genius API song lyrics elegantly.~~
+        - [Musixmatch API](https://developer.musixmatch.com/documentation)
+            - Google seems to use this API for their search engine results for lyrics.
     - API(s) for additional features
         - [KSoft API](https://docs.ksoft.si/api/lyrics-api)
             - This API returns LRC data; might be able to sync with audio file for a “sing-a-long”?
