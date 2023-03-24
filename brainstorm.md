@@ -150,12 +150,17 @@
             - [2](https://dribbble.com/shots/14039384-Travel-search-form-exploration-V2) — ⭐️ Ooooh an idea is to have the search bar just have input1 (aka the main input – e.g., song name for type song, album name for type album) with a filter button. When that is clicked, more inputs are inserted into the search bar with the exception of type artist (have it be disabled) since there aren’t any more specific inputs that can be added.
             - [3](https://dribbble.com/shots/9683197-Traveland-website) — pretty elegant sharp design
 - Design system
-    
-    ********************Modular Scale Ratios********************
-    
-    - [Spacing](https://www.modularscale.com/?16&px&1.333) — (3:4) perfect fourth – 1.333 ratio
-    - [Typography](https://www.modularscale.com/?16&px&1.067) (mobile) — (15:16) minor second – 1.067 ratio
-    - [Typography](https://www.modularscale.com/?16&px&1.333) (desktop) — (3:4) perfect fourth – 1.333 ratio
+    - Color Palette
+        - [Primary](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A47&t=Xj1XHQ70atYNuBnw-1)
+        - [Grays](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A3&t=Xj1XHQ70atYNuBnw-1)
+        - [Accents](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A83&t=Xj1XHQ70atYNuBnw-1)
+    - Typography
+        
+        ********************Modular Scale Ratios********************
+        
+        - [Spacing](https://www.modularscale.com/?16&px&1.333) — (3:4) perfect fourth – 1.333 ratio
+        - [Typography](https://www.modularscale.com/?16&px&1.067) (mobile) — (15:16) minor second – 1.067 ratio
+        - [Typography](https://www.modularscale.com/?16&px&1.333) (desktop) — (3:4) perfect fourth – 1.333 ratio
 - Font
     - [Grafolita Script](https://fonts.adobe.com/fonts/grafolita-script#fonts-section) or [Tersely](https://www.fontspace.com/tersely-font-f76720) — brand text
         - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
