@@ -174,5 +174,6 @@
         - Music is mellifluous.
     - Ensure that the title of the page updates according to what the current page is
     - Try to do route-based code splitting
+    - Have a custom highlight; see this site for reference
 - [Miro UI prototyping](https://miro.com/app/board/uXjVMf5Jj6M=/?share_link_id=538971554368)
 - [Figma UI wireframe](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=0%3A1&t=E1V1GDpVPpTHDrTy-1)
