@@ -166,6 +166,8 @@
         - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
     - [Switzer](https://www.fontshare.com/fonts/switzer) — headline and body text
         - Note: for headlines, decrease the letter spacing to have it mimick a suitable headline typeface.
+- Bundling
+    - Try to configure and see whether SWC really is much more performant than Babel. Set up both just to get a little taste and experience with both.
 - Notes
     - Slogan
         - Music is good.
