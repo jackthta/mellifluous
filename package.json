@@ -1,0 +1,19 @@
+{
+  "name": "mellifluous",
+  "version": "1.0.0",
+  "description": "Stream music, find song lyrics, and discover new artists, albums, and music",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackthta/mellifluous.git"
+  },
+  "author": "Jack Ta",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jackthta/mellifluous/issues"
+  },
+  "homepage": "https://github.com/jackthta/mellifluous#readme"
+}
