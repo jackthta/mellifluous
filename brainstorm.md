@@ -168,6 +168,7 @@
         - Note: for headlines, decrease the letter spacing to have it mimick a suitable headline typeface.
 - Bundling
     - Try to configure and see whether SWC really is much more performant than Babel. Set up both just to get a little taste and experience with both.
+    - Add stylelint and ESlint to the bundle process
 - Notes
     - Slogan
         - Music is good.
