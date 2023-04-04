@@ -2,6 +2,9 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Webpack Plugins
+import HtmlWebpackPlugin from "html-webpack-plugin";
+
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -60,6 +63,14 @@ export default {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      // Pass in your own `index.html` where
+      // webpack will automatically inject the
+      // bundled assets into.
+      template: "index.html",
+    }),
+  ],
   resolve: {
     extensions: [".tsx", ".jsx", ".ts", ".js"],
   },
