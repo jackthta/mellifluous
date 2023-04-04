@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    // Disable compiler from outputting files
+    "noEmit": true
+  }
+}
