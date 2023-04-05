@@ -8,6 +8,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const buildOutDirectory = path.join(__dirname, "build");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Use ESM import/export syntax for webpack.config.js
@@ -77,10 +78,10 @@ export default {
   },
   output: {
     filename: "main.bundle.js",
-    path: path.resolve(__dirname, "build"),
+    path: buildOutDirectory,
   },
   devServer: {
-    static: path.join(__dirname, "build"),
+    static: buildOutDirectory,
     client: {
       overlay: {
         errors: true,
