@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 
 // Webpack Plugins
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
@@ -63,6 +64,17 @@ export default {
           },
         },
       },
+
+      {
+        test: /\.css$/,
+        use: [
+          // It's recommended to use `style-loader` for development
+          // since it's quicker.
+          // Source: https://webpack.js.org/plugins/mini-css-extract-plugin/#recommended
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+        ],
+      },
     ],
   },
   plugins: [
@@ -72,7 +84,9 @@ export default {
       // bundled assets into.
       template: "index.html",
     }),
-  ],
+    !isDevelopment && new MiniCssExtractPlugin(),
+  ].filter(Boolean),
+
   resolve: {
     extensions: [".tsx", ".jsx", ".ts", ".js"],
   },
