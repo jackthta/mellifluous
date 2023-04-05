@@ -8,11 +8,12 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Use ESM import/export syntax for webpack.config.js
 // Source: https://stackoverflow.com/questions/72318969/how-to-export-the-configuration-of-webpack-config-js-using-pure-esm
 export default {
-  mode: "production",
+  mode: isDevelopment ? "development" : "production",
   entry: "./src/index.tsx",
   module: {
     rules: [
@@ -77,5 +78,19 @@ export default {
   output: {
     filename: "main.bundle.js",
     path: path.resolve(__dirname, "build"),
+  },
+  devServer: {
+    static: path.join(__dirname, "build"),
+    client: {
+      overlay: {
+        errors: true,
+        // Don't show full-screen overlay in browser
+        // when there are compiler warnings.
+        warnings: false,
+      },
+    },
+    hot: true,
+    compress: true,
+    port: 8080,
   },
 };
