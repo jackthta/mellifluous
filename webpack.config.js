@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 // Webpack Plugins
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
@@ -17,6 +18,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 export default {
   mode: isDevelopment ? "development" : "production",
   entry: "./src/index.tsx",
+
   module: {
     rules: [
       {
@@ -77,6 +79,13 @@ export default {
       },
     ],
   },
+
+  optimization: {
+    // [Webpack 5] The "..." syntax extends OOTB
+    // included minimizers (e.g. `terser-webpack-plugin`)
+    minimizer: ["...", new CssMinimizerPlugin()],
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
       // Pass in your own `index.html` where
@@ -90,10 +99,12 @@ export default {
   resolve: {
     extensions: [".tsx", ".jsx", ".ts", ".js"],
   },
+
   output: {
     filename: "main.bundle.js",
     path: buildOutDirectory,
   },
+
   devServer: {
     static: buildOutDirectory,
     client: {
