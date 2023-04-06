@@ -105,6 +105,7 @@ export default {
                       },
                     },
                   ],
+
                   "postcss-advanced-variables",
                 ],
               },
@@ -128,6 +129,7 @@ export default {
       // bundled assets into.
       template: "index.html",
     }),
+
     !isDevelopment && new MiniCssExtractPlugin(),
   ].filter(Boolean),
 
