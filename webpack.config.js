@@ -12,6 +12,7 @@ import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const buildOutDirectory = path.join(__dirname, "build");
 const isDevelopment = process.env.NODE_ENV !== "production";
+const browserTargets = "> 0.25%, not dead";
 
 // Use ESM import/export syntax for webpack.config.js
 // Source: https://stackoverflow.com/questions/72318969/how-to-export-the-configuration-of-webpack-config-js-using-pure-esm
@@ -34,7 +35,7 @@ export default {
               [
                 "@babel/preset-env",
                 {
-                  targets: "> 0.25%, not dead",
+                  targets: browserTargets,
                   useBuiltIns: "usage",
                   corejs: "3.30.0",
                 },
@@ -74,17 +75,37 @@ export default {
           // since it's quicker.
           // Source: https://webpack.js.org/plugins/mini-css-extract-plugin/#recommended
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader",
-          [
-            "postcss-loader",
-            {
-              options: {
-                postcssOptions: {
-                  plugins: [],
-                },
+          {
+            loader: "css-loader",
+            options: {
+              // Source: https://webpack.js.org/loaders/css-loader/#importloaders
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env",
+                    {
+                      // Source: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env#features
+                      features: {
+                        // Native CSS Nesting is still in Stage 1
+                        // as of April 01, 2023; enable to transpile
+                        // into universally supported syntax.
+                        // Source: https://cssdb.org/#nesting-rules
+                        // Note: this uses the `postcss-nesting`
+                        // plugin.
+                        "nesting-rules": true,
+                      },
+                    },
+                  ],
+                ],
               },
             },
-          ],
+          },
         ],
       },
     ],
