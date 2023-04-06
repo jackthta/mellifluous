@@ -90,6 +90,9 @@ export default {
                   [
                     "postcss-preset-env",
                     {
+                      // Source: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env#browsers
+                      browsers: browserTargets,
+
                       // Source: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env#features
                       features: {
                         // Native CSS Nesting is still in Stage 1
