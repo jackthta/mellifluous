@@ -75,6 +75,16 @@ export default {
           // Source: https://webpack.js.org/plugins/mini-css-extract-plugin/#recommended
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
+          [
+            "postcss-loader",
+            {
+              options: {
+                postcssOptions: {
+                  plugins: [],
+                },
+              },
+            },
+          ],
         ],
       },
     ],
