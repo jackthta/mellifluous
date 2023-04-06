@@ -2,8 +2,9 @@
   "compilerOptions": {
     // Disable compiler from outputting files
     "noEmit": true,
-    // Appease IDE TS highlighted error: 
+    // Appease IDE TS highlighted error:
     // "Cannot use JSX unless the '--jsx' flag is provided."
     "jsx": "react-jsx"
-  }
+  },
+  "include": ["src/**/*", "./globals.d.ts"]
 }
