@@ -102,6 +102,7 @@ export default {
                       },
                     },
                   ],
+                  "postcss-advanced-variables",
                 ],
               },
             },
