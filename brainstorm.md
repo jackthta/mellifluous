@@ -1,181 +1,179 @@
 # mellifluous brainstorming
 
 - **API list**
-    - API for searching songs/artists/albums
-        - [MusicBrainz API](https://musicbrainz.org/doc/MusicBrainz_API)
-            - Pros/Cons
-                - Pros:
-                    - Has a ***lot*** of data.
-                    - It contains a *****lot***** of “relationship” links. Can potentially use this to validate for verified official artists in SoundCloud API results to find OSTs.
-                    - Strong [search API](https://musicbrainz.org/doc/Search)
-                - Cons:
-                    - Documentation is really verbose and may take a bit more energy to consume/understand.
-                    - Both a pro and con, but this API returns very minuete details. Might take some additional effort to comb through and cherry pick only the data that is needed.
-            - Searching
-                - Artists
-                    - Type: Artist
-                        - This search works really well with direct database search. If the user types in the artist’s name correctly, it will most of the time result in one result (the one they’re looking for).
-                - Albums
-                    - Type: Release (not Release Group)
-                        - Use indexed search with advanced query syntax.
-                            - Example query: `how to be human AND artist:"chelsea cutler" AND country:XW`
-                                - `XW` — worldwide
-                        - Note: will need to dedupe (maybe choose the duplicate that has more metadata?) with a preferrence for the album that has no suffix “tag” in the name (e.g., *******(clean), (explicit), (explicit, 24bit/44.1kHz)*******, etc)
-                - Songs
-                    - Type: Recording (not Release Group)
-                        - Use indexed search with advanced query syntax.
-                            - Example query: `please AND artist:"chelsea cutler" AND country:XW`
-            - Important notes:
-                - Base URL –  `https://musicbrainz.org/ws/2/`
-                - No API key, but [must have meaningful user-agent string](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings).
-                - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`
-    - APIs for streaming music audio
-        - [SoundCloud API](https://developers.soundcloud.com/)
-            - Pros/Cons
-                - Pros:
-                    - Might contain more “underground” tracks that may be convenient to show as potential tracks user can play
-                - Cons:
-                    - Streaming music seems **********extremely********** verbose.. still unsure how it functions and whether it’s worth the effort.
-            - Idea for streaming with this API
-                - Once you have the track’s `media.transcodings`, take the first one* and do a `GET` request to its `url`.
-                    - *There will be multiple transcodings, and I don’t really know much about them at the moment, so do some research to see if there’s a preferrable one or if you need to do something with all the transcoding.
-                - This will return another `url` which points to the `[m3u](https://en.wikipedia.org/wiki/M3U)` file which contains a list of links which point to “chunks” of the audio.
-                - Extract all the urls from this file and sequentially do a `GET` request for every url and append the data into an array buffer. [See here for reference.](https://github.com/Tenpi/soundcloud.ts/blob/2d5b5318083555ac7b31af631f1267a3c31bfe30/entities/Util.ts#L74)
-                - I’m not entirely sure what to do with the array buffer here, but since it should be a readable stream, maybe figure out a way to have the `audio` element “read” from this buffer? Or convert the buffer to something that `audio` element can consume (`[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)`)?
-                - [Another example of doing an HTTP request for an mp3 file and using the `arraybuffer` response type](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#web_audio_api)
-        - [audiomack API](https://www.audiomack.com/data-api/docs)
-            - This API is a ***lot*** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.
-            - Some nits about authorization
-                - On the *Obtaining an Unauthorized Request Token* section, it indicates something to do with OAuth. Use [this](https://github.com/ddo/oauth-1.0a) library to conveniently handle that. Specifically, follow what is done with the `request_data` object.
-    - API for finding similar songs/artists
-        - [last.fm API](https://www.last.fm/api)
-            - This API also supports finding similar artists and songs. Might be more reputable than the TasteDive API
-            - On second thought.. this might not work.. Using this API to show similar artists to the current artist will work, but only at a visual capacity. There is no workflow that allows for that similar artist returned from this API to map to the artist entity from the MusicBrainz API. An idea I thought was to do a MusicBrainz API search with the similar artist’s name returned from this API and choose the first one hoping that the artist’s name will be unique enough, but what if the artist’s name is generic? But is it good UX to show similar artists, but can’t conveniently click onto them to see their artist page?
-        - [~~TasteDive API~~](https://tastedive.com/read/api)
-            - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
-            - **********************************************************************************************Decided not to go with this API because the documentation is lacking considerably.**********************************************************************************************
-    - API for finding lyrics
-        - [Genius API](https://docs.genius.com/) — [index](https://genius.com/api-clients)
-            - The public API does not support many features.. at best, it can return song lyrics. An idea I have to figure out how to seamlessly find lyrics to a song from the MusicBrainz API is to compare the Genius relationship link to a Genius API result’s `primary_artist.url` and if it’s the same, then ****that**** song returned from the Genius API is from the official artist.
-            - ~~API has a pretty good amount of music data. Might be worth using this for the searching functionality instead of the MusicBrainz API.~~
-            - ~~Another pro is that I can just use the Genius API’s song id to find the associated song lyrics instead of some strange workaround to link a MusicBrainz API song to Genius API song lyrics elegantly.~~
-        - [Musixmatch API](https://developer.musixmatch.com/documentation)
-            - Google seems to use this API for their search engine results for lyrics.
-    - API(s) for additional features
-        - [KSoft API](https://docs.ksoft.si/api/lyrics-api)
-            - This API returns LRC data; might be able to sync with audio file for a “sing-a-long”?
-                - [This article](https://dev.to/mcanam/javascript-lyric-synchronizer-4i15) is a convenient tutorial for “syncing” an LRC file to audio (maybe for “karaoke”-like functionality)
-            - The only problem I can foresee at the moment is that the LRC data can only be synced with an OST (i.e., no remixes). How to determine if the audio playing is an OST?
-                - ~~A suboptimal workaround is to have some sort of note or highlight to the user that the “sing-a-long” feature will only synchronize properly with original sound tracks (OST).~~
-                - Another potential solution: with the chosen lyrics returned from the Genius API, do a lyric match with every result returned from this API and if the first one with a match greater than 90% or so, use that for the sing-a-long feature. If none match above that threshold, maybe note that there is no sing-a-long for those lyrics.
+  - API for searching songs/artists/albums
+    - [MusicBrainz API](https://musicbrainz.org/doc/MusicBrainz_API)
+      - Pros/Cons
+        - Pros:
+          - Has a **_lot_** of data.
+          - It contains a **\***lot**\*** of “relationship” links. Can potentially use this to validate for verified official artists in SoundCloud API results to find OSTs.
+          - Strong [search API](https://musicbrainz.org/doc/Search)
+        - Cons:
+          - Documentation is really verbose and may take a bit more energy to consume/understand.
+          - Both a pro and con, but this API returns very minuete details. Might take some additional effort to comb through and cherry pick only the data that is needed.
+      - Searching
+        - Artists
+          - Type: Artist
+            - This search works really well with direct database search. If the user types in the artist’s name correctly, it will most of the time result in one result (the one they’re looking for).
+        - Albums
+          - Type: Release (not Release Group)
+            - Use indexed search with advanced query syntax.
+              - Example query: `how to be human AND artist:"chelsea cutler" AND country:XW`
+                - `XW` — worldwide
+            - Note: will need to dedupe (maybe choose the duplicate that has more metadata?) with a preferrence for the album that has no suffix “tag” in the name (e.g., **\*\*\***(clean), (explicit), (explicit, 24bit/44.1kHz)**\*\*\***, etc)
+        - Songs
+          - Type: Recording (not Release Group)
+            - Use indexed search with advanced query syntax.
+              - Example query: `please AND artist:"chelsea cutler" AND country:XW`
+      - Important notes:
+        - Base URL –  `https://musicbrainz.org/ws/2/`
+        - No API key, but [must have meaningful user-agent string](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings).
+        - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`
+  - APIs for streaming music audio
+    - [SoundCloud API](https://developers.soundcloud.com/)
+      - Pros/Cons
+        - Pros:
+          - Might contain more “underground” tracks that may be convenient to show as potential tracks user can play
+        - Cons:
+          - Streaming music seems \***\*\*\*\*\***extremely\***\*\*\*\*\*** verbose.. still unsure how it functions and whether it’s worth the effort.
+      - Idea for streaming with this API
+        - Once you have the track’s `media.transcodings`, take the first one\* and do a `GET` request to its `url`.
+          - \*There will be multiple transcodings, and I don’t really know much about them at the moment, so do some research to see if there’s a preferrable one or if you need to do something with all the transcoding.
+        - This will return another `url` which points to the `[m3u](https://en.wikipedia.org/wiki/M3U)` file which contains a list of links which point to “chunks” of the audio.
+        - Extract all the urls from this file and sequentially do a `GET` request for every url and append the data into an array buffer. [See here for reference.](https://github.com/Tenpi/soundcloud.ts/blob/2d5b5318083555ac7b31af631f1267a3c31bfe30/entities/Util.ts#L74)
+        - I’m not entirely sure what to do with the array buffer here, but since it should be a readable stream, maybe figure out a way to have the `audio` element “read” from this buffer? Or convert the buffer to something that `audio` element can consume (`[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)`)?
+        - [Another example of doing an HTTP request for an mp3 file and using the `arraybuffer` response type](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#web_audio_api)
+    - [audiomack API](https://www.audiomack.com/data-api/docs)
+      - This API is a **_lot_** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.
+      - Some nits about authorization
+        - On the _Obtaining an Unauthorized Request Token_ section, it indicates something to do with OAuth. Use [this](https://github.com/ddo/oauth-1.0a) library to conveniently handle that. Specifically, follow what is done with the `request_data` object.
+  - API for finding similar songs/artists
+    - [last.fm API](https://www.last.fm/api)
+      - This API also supports finding similar artists and songs. Might be more reputable than the TasteDive API
+      - On second thought.. this might not work.. Using this API to show similar artists to the current artist will work, but only at a visual capacity. There is no workflow that allows for that similar artist returned from this API to map to the artist entity from the MusicBrainz API. An idea I thought was to do a MusicBrainz API search with the similar artist’s name returned from this API and choose the first one hoping that the artist’s name will be unique enough, but what if the artist’s name is generic? But is it good UX to show similar artists, but can’t conveniently click onto them to see their artist page?
+    - [~~TasteDive API~~](https://tastedive.com/read/api)
+      - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
+      - \***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***Decided not to go with this API because the documentation is lacking considerably.\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***
+  - API for finding lyrics
+    - [Genius API](https://docs.genius.com/) — [index](https://genius.com/api-clients)
+      - The public API does not support many features.. at best, it can return song lyrics. An idea I have to figure out how to seamlessly find lyrics to a song from the MusicBrainz API is to compare the Genius relationship link to a Genius API result’s `primary_artist.url` and if it’s the same, then \***\*that\*\*** song returned from the Genius API is from the official artist.
+      - ~~API has a pretty good amount of music data. Might be worth using this for the searching functionality instead of the MusicBrainz API.~~
+      - ~~Another pro is that I can just use the Genius API’s song id to find the associated song lyrics instead of some strange workaround to link a MusicBrainz API song to Genius API song lyrics elegantly.~~
+    - [Musixmatch API](https://developer.musixmatch.com/documentation)
+      - Google seems to use this API for their search engine results for lyrics.
+  - API(s) for additional features
+    - [KSoft API](https://docs.ksoft.si/api/lyrics-api)
+      - This API returns LRC data; might be able to sync with audio file for a “sing-a-long”?
+        - [This article](https://dev.to/mcanam/javascript-lyric-synchronizer-4i15) is a convenient tutorial for “syncing” an LRC file to audio (maybe for “karaoke”-like functionality)
+      - The only problem I can foresee at the moment is that the LRC data can only be synced with an OST (i.e., no remixes). How to determine if the audio playing is an OST?
+        - ~~A suboptimal workaround is to have some sort of note or highlight to the user that the “sing-a-long” feature will only synchronize properly with original sound tracks (OST).~~
+        - Another potential solution: with the chosen lyrics returned from the Genius API, do a lyric match with every result returned from this API and if the first one with a match greater than 90% or so, use that for the sing-a-long feature. If none match above that threshold, maybe note that there is no sing-a-long for those lyrics.
 - Features
-    - Search bar w/ sorting and filtering functionality
-    - Audio player (built from scratch ideally)
-        - [MDN – Customizing Your Media Player](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#customizing_your_media_player)
-        - [MDN – Cross-browser audio basics](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Cross-browser_audio_basics#creating_your_own_custom_audio_player)
-        - [MDN – Web Audio API best practices](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices)
-        - `[HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement)` – might be good to be familiar with its API (for stuff like moving the current playback time via the `currentTime`, etc)
-        - [Media buffering, seeking, and time ranges](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges)
-        - `[BaseAudioContext.decodeAudioData()](https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData)` – this might be helpful for audio tracks returned from the audiomack API
-            - [More info](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques#loading_the_sample)
-        - It might be helpful to look at some audio JS libraries to see how they did it and perhaps find inspiration.
-            - Cross browser and legacy supported Web Audio JS libraries
-                - [standardized-audio-context](https://github.com/chrisguttandin/standardized-audio-context)
-                - [howler.js](https://howlerjs.com/)
-    - “sing-a-long” lyric capability if the implementation is sound
-    - Light/dark mode
-    - Maybe use an elegant typeface for the brand “home button” text
-        - Place a little more effort in animating it this time: type writing animation starting with “m”? and then slant it?
+  - Search bar w/ sorting and filtering functionality
+  - Audio player (built from scratch ideally)
+    - [MDN – Customizing Your Media Player](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#customizing_your_media_player)
+    - [MDN – Cross-browser audio basics](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Cross-browser_audio_basics#creating_your_own_custom_audio_player)
+    - [MDN – Web Audio API best practices](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices)
+    - `[HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement)` – might be good to be familiar with its API (for stuff like moving the current playback time via the `currentTime`, etc)
+    - [Media buffering, seeking, and time ranges](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges)
+    - `[BaseAudioContext.decodeAudioData()](https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData)` – this might be helpful for audio tracks returned from the audiomack API
+      - [More info](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques#loading_the_sample)
+    - It might be helpful to look at some audio JS libraries to see how they did it and perhaps find inspiration.
+      - Cross browser and legacy supported Web Audio JS libraries
+        - [standardized-audio-context](https://github.com/chrisguttandin/standardized-audio-context)
+        - [howler.js](https://howlerjs.com/)
+  - “sing-a-long” lyric capability if the implementation is sound
+  - Light/dark mode
+  - Maybe use an elegant typeface for the brand “home button” text
+    - Place a little more effort in animating it this time: type writing animation starting with “m”? and then slant it?
 - Pages
-    - Home page
-        - Similar to **synopedia**, have a search bar where users can search for a song, artist, or album.
-            - Maybe allow for filtering and sorting?
-        - ~~Alternatively, supply home page with “trending” songs, artists, etc?~~
-            - MusicBrainz API doesn’t support this kind of feature
-        - Use this [generator](https://bgjar.com/curve-line) once you settle on a primary brand color
-            - Might be worth just setting the background color via CSS and take the curve line SVG and embed it?
-        - Have the slogan above main search bar fill in the “Music is _” slogan with a variety of words based whenever the homepage is re-rendered.
-    - Search results page
-        - Have results in a table
-            - ~~Infinite scroll~~, “Load more” button, or pagination?
-                - Pagination allows for user to “save” page results in a URL but may add some complexity if sorting is to be added.
-                    - Pagination can only work if the API supports it
-                - “Load more” can be a backup.
-    - Artist page
-        - Show artist biography
-            - Artists’ socials
-        - Show artist’s albums
-        - Show similar artists
-    - Album page
-        - Show album metadata (but w/o biography)
-        - Show songs in this album
-        - Show link to all artist’s albums page?
-        - Maybe something fancy is to have you able to “flip” through their albums
-    - Song page
-        - Show song metadata
-        - See if Lyrics API returns lyrics for this song
-            - Show something to indicate “can’t find lyrics for this song” if it doesn’t
-            - If lyrics exist, show lyrics and attempt to sync the LRC data returned from the API to have “sing-a-long” highlighting based on the current timestamp of the audio player
-        - Ping music streaming API to find a result list of songs that align with the song page’s name
-            - Clicking on any of the tracks will show a sticky bottom audio player (similar to SoundCloud)
-            - Create your own audio player?
-                - Might be nice to get some experience in that
-        - Show section for similar songs?
-            - Should it also show similar artists or albums or would that be overkill?
-                - Alternatively, maybe show similar “content” based on the page? (e.g., artist’s page ~> similar artists, album’s page ~> similar albums (wait I don’t know if the API actually returns this), song’s page ~> similar songs
+  - Home page
+    - Similar to **synopedia**, have a search bar where users can search for a song, artist, or album.
+      - Maybe allow for filtering and sorting?
+    - ~~Alternatively, supply home page with “trending” songs, artists, etc?~~
+      - MusicBrainz API doesn’t support this kind of feature
+    - Use this [generator](https://bgjar.com/curve-line) once you settle on a primary brand color
+      - Might be worth just setting the background color via CSS and take the curve line SVG and embed it?
+    - Have the slogan above main search bar fill in the “Music is \_” slogan with a variety of words based whenever the homepage is re-rendered.
+  - Search results page
+    - Have results in a table
+      - ~~Infinite scroll~~, “Load more” button, or pagination?
+        - Pagination allows for user to “save” page results in a URL but may add some complexity if sorting is to be added.
+          - Pagination can only work if the API supports it
+        - “Load more” can be a backup.
+  - Artist page
+    - Show artist biography
+      - Artists’ socials
+    - Show artist’s albums
+    - Show similar artists
+  - Album page
+    - Show album metadata (but w/o biography)
+    - Show songs in this album
+    - Show link to all artist’s albums page?
+    - Maybe something fancy is to have you able to “flip” through their albums
+  - Song page
+    - Show song metadata
+    - See if Lyrics API returns lyrics for this song
+      - Show something to indicate “can’t find lyrics for this song” if it doesn’t
+      - If lyrics exist, show lyrics and attempt to sync the LRC data returned from the API to have “sing-a-long” highlighting based on the current timestamp of the audio player
+    - Ping music streaming API to find a result list of songs that align with the song page’s name
+      - Clicking on any of the tracks will show a sticky bottom audio player (similar to SoundCloud)
+      - Create your own audio player?
+        - Might be nice to get some experience in that
+    - Show section for similar songs?
+      - Should it also show similar artists or albums or would that be overkill?
+        - Alternatively, maybe show similar “content” based on the page? (e.g., artist’s page ~> similar artists, album’s page ~> similar albums (wait I don’t know if the API actually returns this), song’s page ~> similar songs
 - Tech stack
-    - HTML5
-    - CSS3, PostCSS, CSS Modules
-    - React
-    - Redux
-    - TanStack Router
-    - JavaScript, TypeScript
-    - Webpack
-        - autoprefixer
-        - eslint
-        - stylelint
+  - HTML5
+  - CSS3, PostCSS, CSS Modules
+  - React
+  - Redux
+  - TanStack Router
+  - JavaScript, TypeScript
+  - Webpack
+    - autoprefixer
+    - eslint
+    - stylelint
 - Design inspiration
-    - Audio Player
-        - [1](https://dribbble.com/shots/6864110-Music-Player-Daily-UI-009)
-        - [2](https://dribbble.com/shots/19725272-Music-Media-Player-Portal-Concept-UXUI)
-        - [3](https://dribbble.com/shots/18240691-Music-Player-Portal-Concept-UI-UX)
-        - [4](https://dribbble.com/shots/15282492-Playo-Web-Music-player) – I kind of like how the album poster glows a bit
-        - [5](https://dribbble.com/shots/16122973-Web-Music-Player-Retro) – Cool audio spectrum waveform visualization effect
-        - [6](https://dribbble.com/shots/19838351-Music-Player-Website-Design-Concept) – This shows a song lyrics non-modal
-        - [7](https://dribbble.com/shots/8547900-Online-Music-Service)
-    - Search bar
-        - [1](https://dribbble.com/shots/19205028--Smart-Search) — I like the square “clear” button
-        - Search bar layout to account for MusicBrainz’s limitation (need to be more specific to narrow down searches)
-            - [1](https://dribbble.com/shots/14649429-Jobseeker-Landing-Page) — I like the idea of having an icon to indicate the “type” of input
-            - [2](https://dribbble.com/shots/14039384-Travel-search-form-exploration-V2) — ⭐️ Ooooh an idea is to have the search bar just have input1 (aka the main input – e.g., song name for type song, album name for type album) with a filter button. When that is clicked, more inputs are inserted into the search bar with the exception of type artist (have it be disabled) since there aren’t any more specific inputs that can be added.
-            - [3](https://dribbble.com/shots/9683197-Traveland-website) — pretty elegant sharp design
+  - Audio Player
+    - [1](https://dribbble.com/shots/6864110-Music-Player-Daily-UI-009)
+    - [2](https://dribbble.com/shots/19725272-Music-Media-Player-Portal-Concept-UXUI)
+    - [3](https://dribbble.com/shots/18240691-Music-Player-Portal-Concept-UI-UX)
+    - [4](https://dribbble.com/shots/15282492-Playo-Web-Music-player) – I kind of like how the album poster glows a bit
+    - [5](https://dribbble.com/shots/16122973-Web-Music-Player-Retro) – Cool audio spectrum waveform visualization effect
+    - [6](https://dribbble.com/shots/19838351-Music-Player-Website-Design-Concept) – This shows a song lyrics non-modal
+    - [7](https://dribbble.com/shots/8547900-Online-Music-Service)
+  - Search bar
+    - [1](https://dribbble.com/shots/19205028--Smart-Search) — I like the square “clear” button
+    - Search bar layout to account for MusicBrainz’s limitation (need to be more specific to narrow down searches)
+      - [1](https://dribbble.com/shots/14649429-Jobseeker-Landing-Page) — I like the idea of having an icon to indicate the “type” of input
+      - [2](https://dribbble.com/shots/14039384-Travel-search-form-exploration-V2) — ⭐️ Ooooh an idea is to have the search bar just have input1 (aka the main input – e.g., song name for type song, album name for type album) with a filter button. When that is clicked, more inputs are inserted into the search bar with the exception of type artist (have it be disabled) since there aren’t any more specific inputs that can be added.
+      - [3](https://dribbble.com/shots/9683197-Traveland-website) — pretty elegant sharp design
 - Design system
-    - Color Palette
-        - [Primary](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A47&t=Xj1XHQ70atYNuBnw-1)
-        - [Grays](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A3&t=Xj1XHQ70atYNuBnw-1)
-        - [Accents](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A83&t=Xj1XHQ70atYNuBnw-1)
-    - Typography
-        
-        ********************Modular Scale Ratios********************
-        
-        - [Spacing](https://www.modularscale.com/?16&px&1.333) — (3:4) perfect fourth – 1.333 ratio
-        - [Typography](https://www.modularscale.com/?16&px&1.067) (mobile) — (15:16) minor second – 1.067 ratio
-        - [Typography](https://www.modularscale.com/?16&px&1.333) (desktop) — (3:4) perfect fourth – 1.333 ratio
+  - Color Palette
+    - [Primary](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A47&t=Xj1XHQ70atYNuBnw-1)
+    - [Grays](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A3&t=Xj1XHQ70atYNuBnw-1)
+    - [Accents](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A83&t=Xj1XHQ70atYNuBnw-1)
+  - Typography
+    **\*\*\*\***\*\*\*\***\*\*\*\***Modular Scale Ratios**\*\*\*\***\*\*\*\***\*\*\*\***
+    - [Spacing](https://www.modularscale.com/?16&px&1.333) — (3:4) perfect fourth – 1.333 ratio
+    - [Typography](https://www.modularscale.com/?16&px&1.067) (mobile) — (15:16) minor second – 1.067 ratio
+    - [Typography](https://www.modularscale.com/?16&px&1.333) (desktop) — (3:4) perfect fourth – 1.333 ratio
 - Font
-    - [Grafolita Script](https://fonts.adobe.com/fonts/grafolita-script#fonts-section) or [Tersely](https://www.fontspace.com/tersely-font-f76720) — brand text
-        - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
-    - [Switzer](https://www.fontshare.com/fonts/switzer) — headline and body text
-        - Note: for headlines, decrease the letter spacing to have it mimick a suitable headline typeface.
+  - [Grafolita Script](https://fonts.adobe.com/fonts/grafolita-script#fonts-section) or [Tersely](https://www.fontspace.com/tersely-font-f76720) — brand text
+    - Optimization: remove all unused glyphs (i.e., all glyphs except for those used in “mellifluous”)
+  - [Switzer](https://www.fontshare.com/fonts/switzer) — headline and body text
+    - Note: for headlines, decrease the letter spacing to have it mimick a suitable headline typeface.
 - Bundling
-    - Try to configure and see whether SWC really is much more performant than Babel. Set up both just to get a little taste and experience with both.
-    - Add stylelint and ESlint to the bundle process
-      - eslint-plugin-react
+  - Try to configure and see whether SWC really is much more performant than Babel. Set up both just to get a little taste and experience with both.
+  - Add stylelint and ESlint to the bundle process
+    - eslint-plugin-react
 - Notes
-    - Slogan
-        - Music is good.
-        - Music is mellifluous.
-    - Ensure that the title of the page updates according to what the current page is
-    - Try to do route-based code splitting
-    - Have a custom highlight; see this site for reference
+  - Slogan
+    - Music is good.
+    - Music is mellifluous.
+  - Ensure that the title of the page updates according to what the current page is
+  - Try to do route-based code splitting
+  - Have a custom highlight; see this site for reference
 - [Miro UI prototyping](https://miro.com/app/board/uXjVMf5Jj6M=/?share_link_id=538971554368)
 - [Figma UI wireframe](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=0%3A1&t=E1V1GDpVPpTHDrTy-1)
