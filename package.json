@@ -10,6 +10,9 @@
     "typecheck": "tsc",
     "format": "prettier --ignore-path=.gitignore --loglevel=silent --write ."
   },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jackthta/mellifluous.git"
@@ -32,6 +35,8 @@
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
     "mini-css-extract-plugin": "^2.7.5",
     "postcss": "^8.4.21",
     "postcss-advanced-variables": "^3.0.1",
