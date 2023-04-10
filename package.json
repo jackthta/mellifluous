@@ -8,18 +8,14 @@
     "dev": "webpack server --open",
     "build": "NODE_ENV=production webpack",
     "typecheck": "tsc",
-    "format": "prettier --ignore-path=.gitignore --loglevel=silent --write ."
+    "format": "prettier --ignore-path=.gitignore --loglevel=silent --write .",
+    "stylelint": "stylelint '**/*.css' --config='./config/stylelint.config.cjs' --cache --fix"
   },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ],
     "helpUrl": "https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index"
-  },
-  "stylelint": {
-    "extends": [
-      "stylelint-config-standard"
-    ]
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
