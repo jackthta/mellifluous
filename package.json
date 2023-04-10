@@ -19,7 +19,10 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
-    "**/*.css": "npm run stylelint"
+    "**/*.css": [
+      "npm run stylelint",
+      "prettier --write"
+    ]
   },
   "repository": {
     "type": "git",
