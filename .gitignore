@@ -3,3 +3,6 @@ node_modules/
 
 # Webpack bundled files
 build/
+
+# Stylelint cache
+.stylelintcache

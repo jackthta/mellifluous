@@ -16,6 +16,11 @@
     ],
     "helpUrl": "https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index"
   },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard"
+    ]
+  },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
@@ -52,6 +57,8 @@
     "postcss-preset-env": "^8.3.0",
     "prettier": "2.8.7",
     "style-loader": "^3.3.2",
+    "stylelint": "^15.4.0",
+    "stylelint-config-standard": "^32.0.0",
     "typescript": "^5.0.3",
     "webpack": "^5.77.0",
     "webpack-cli": "^5.0.1",
