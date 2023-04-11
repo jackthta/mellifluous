@@ -10,7 +10,7 @@
     "typecheck": "tsc",
     "prettier": "prettier --ignore-path=.gitignore --loglevel=silent --write .",
     "stylelint": "stylelint 'src/**/*.css' --config='config/stylelint.config.cjs' --cache --cache-location='lint_cache/.stylelintcache' --fix",
-    "eslint": "ESLINT_USE_FLAT_CONFIG=true eslint 'src/**/*.js' --config='config/eslint.config.js' --cache --cache-location='lint_cache/.eslintcache' --fix"
+    "eslint": "eslint 'src/**/*.{js,ts,tsx}' --config='config/.eslintrc.cjs' --cache --cache-location='lint_cache/.eslintcache' --fix"
   },
   "commitlint": {
     "extends": [
