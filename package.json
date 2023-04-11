@@ -9,8 +9,8 @@
     "build": "NODE_ENV=production webpack",
     "typecheck": "tsc",
     "prettier": "prettier --ignore-path=.gitignore --loglevel=silent --write .",
-    "stylelint": "stylelint '**/*.css' --config='./config/stylelint.config.cjs' --cache --fix",
-    "eslint": "ESLINT_USE_FLAT_CONFIG=true eslint 'src/**/*.js' --config='config/eslint.config.js' --cache --fix"
+    "stylelint": "stylelint '**/*.css' --config='config/stylelint.config.cjs' --cache --cache-location='lint_cache/.stylelintcache' --fix",
+    "eslint": "ESLINT_USE_FLAT_CONFIG=true eslint 'src/**/*.js' --config='config/eslint.config.js' --cache --cache-location='lint_cache/.eslintcache' --fix"
   },
   "commitlint": {
     "extends": [
