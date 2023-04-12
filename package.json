@@ -12,21 +12,12 @@
     "stylelint": "stylelint 'src/**/*.css' --config='config/stylelint.config.cjs' --cache --cache-location='lint_cache/.stylelintcache' --fix",
     "eslint": "eslint 'src/**/*.{js,ts,tsx}' --config='config/.eslintrc.cjs' --cache --cache-location='lint_cache/.eslintcache' --fix"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
-    "rules": {
-      "header-max-length": [
-        0,
-        "never",
-        0
-      ]
-    },
-    "helpUrl": "https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index"
-  },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
+    "**/*.{js,ts,tsx}": [
+      "npm run eslint",
+      "prettier --write"
+    ],
     "**/*.css": [
       "npm run stylelint",
       "prettier --write"
