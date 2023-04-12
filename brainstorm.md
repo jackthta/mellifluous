@@ -10,7 +10,7 @@
           - Strong [search API](https://musicbrainz.org/doc/Search)
         - Cons:
           - Documentation is really verbose and may take a bit more energy to consume/understand.
-          - Both a pro and con, but this API returns very minuete details. Might take some additional effort to comb through and cherry pick only the data that is needed.
+          - Both a pro and con, but this API returns very minutiae details. Might take some additional effort to comb through and cherry pick only the data that is needed.
       - Searching
         - Artists
           - Type: Artist
@@ -25,10 +25,20 @@
           - Type: Recording (not Release Group)
             - Use indexed search with advanced query syntax.
               - Example query: `please AND artist:"chelsea cutler" AND country:XW`
+        - [MusicBrainz search page](https://musicbrainz.org/search)
+          - Use this to compare against data returned from HTTP requests to see if it’s working as intended and also to validate query strings via DevTools Network tab.
+        - [MusicBrainz search documentation](https://musicbrainz.org/doc/MusicBrainz_API/Search)
       - Important notes:
         - Base URL –  `https://musicbrainz.org/ws/2/`
         - No API key, but [must have meaningful user-agent string](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#Provide_meaningful_User-Agent_strings).
-        - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`
+          - Pass in `"User-Agent": "mellifluous/1.0.0 ([https://github.com/jackthta/mellifluous](https://github.com/jackthta/mellifluous))"` to headers.
+        - XML is the default response format; to get a JSON response, set the `Accept` header to `"application/json”`.
+          - Pass in these headers. Documentation says that only the `Accept` header needs to set `"application/json"` to receive a JSON response body, but it doesn’t. The missing piece is setting `"Content-Type": "application/json"`.
+            ```
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            ```
+        - [These examples](https://musicbrainz.org/doc/MusicBrainz_API/Examples) are helpful when you have the UUID of an artist for example, and want to query for more information/data related to that artist.
   - APIs for streaming music audio
     - [SoundCloud API](https://developers.soundcloud.com/)
       - Pros/Cons
@@ -53,7 +63,7 @@
       - On second thought.. this might not work.. Using this API to show similar artists to the current artist will work, but only at a visual capacity. There is no workflow that allows for that similar artist returned from this API to map to the artist entity from the MusicBrainz API. An idea I thought was to do a MusicBrainz API search with the similar artist’s name returned from this API and choose the first one hoping that the artist’s name will be unique enough, but what if the artist’s name is generic? But is it good UX to show similar artists, but can’t conveniently click onto them to see their artist page?
     - [~~TasteDive API~~](https://tastedive.com/read/api)
       - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
-      - \***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***Decided not to go with this API because the documentation is lacking considerably.\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***\*\*\***\*\*\*\*\***
+      - **********************\*\***********************\*\***********************\*\***********************Decided not to go with this API because the documentation is lacking considerably.**********************\*\***********************\*\***********************\*\***********************
   - API for finding lyrics
     - [Genius API](https://docs.genius.com/) — [index](https://genius.com/api-clients)
       - The public API does not support many features.. at best, it can return song lyrics. An idea I have to figure out how to seamlessly find lyrics to a song from the MusicBrainz API is to compare the Genius relationship link to a Genius API result’s `primary_artist.url` and if it’s the same, then \***\*that\*\*** song returned from the Genius API is from the official artist.
@@ -167,13 +177,13 @@
 - Bundling
   - Try to configure and see whether SWC really is much more performant than Babel. Set up both just to get a little taste and experience with both.
   - Add stylelint and ESlint to the bundle process
-    - eslint-plugin-react
+    - [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react)
 - Notes
   - Slogan
     - Music is good.
     - Music is mellifluous.
   - Ensure that the title of the page updates according to what the current page is
   - Try to do route-based code splitting
-  - Have a custom highlight; see this site for reference
+  - Have a custom highlight; see [this site](https://bundlers.tooling.report/) for reference
 - [Miro UI prototyping](https://miro.com/app/board/uXjVMf5Jj6M=/?share_link_id=538971554368)
 - [Figma UI wireframe](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=0%3A1&t=E1V1GDpVPpTHDrTy-1)
