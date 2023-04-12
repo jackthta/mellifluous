@@ -12,17 +12,6 @@
     "stylelint": "stylelint 'src/**/*.css' --config='config/stylelint.config.cjs' --cache --cache-location='lint_cache/.stylelintcache' --fix",
     "eslint": "eslint 'src/**/*.{js,ts,tsx}' --config='config/.eslintrc.cjs' --cache --cache-location='lint_cache/.eslintcache' --fix"
   },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "**/*.{js,ts,tsx}": [
-      "npm run eslint",
-      "prettier --write"
-    ],
-    "**/*.css": [
-      "npm run stylelint",
-      "prettier --write"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jackthta/mellifluous.git"

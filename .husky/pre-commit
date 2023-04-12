@@ -1,4 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx lint-staged
+# NOTE: The `config` path seems to be relative to the root project directory.
+# Making the path relative to the directory that this file is in (`root/.husky/`)
+# doesn't work.
+npx lint-staged --config="config/lint-staged.config.cjs"
