@@ -53,9 +53,14 @@
         - Extract all the urls from this file and sequentially do a `GET` request for every url and append the data into an array buffer. [See here for reference.](https://github.com/Tenpi/soundcloud.ts/blob/2d5b5318083555ac7b31af631f1267a3c31bfe30/entities/Util.ts#L74)
         - I’m not entirely sure what to do with the array buffer here, but since it should be a readable stream, maybe figure out a way to have the `audio` element “read” from this buffer? Or convert the buffer to something that `audio` element can consume (`[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)`)?
         - [Another example of doing an HTTP request for an mp3 file and using the `arraybuffer` response type](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#web_audio_api)
-    - [audiomack API](https://www.audiomack.com/data-api/docs)
-      - This API is a **_lot_** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.
-      - Some nits about authorization
+    - [~~audiomack API~~](https://www.audiomack.com/data-api/docs)
+      - The documentation explaining how to authenticate for API usage is lacking some details because I can’t get this working.
+      - ~~This API is a **_lot_** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.~~
+      - ~~Notes~~
+        - Base URL: `https://api.audiomack.com/v1`
+        - API uses oAuth 1.0a protocol(?)
+        - All API responses are in JSON format
+      - ~~Some nits about authorization~~
         - On the _Obtaining an Unauthorized Request Token_ section, it indicates something to do with OAuth. Use [this](https://github.com/ddo/oauth-1.0a) library to conveniently handle that. Specifically, follow what is done with the `request_data` object.
   - API for finding similar songs/artists
     - [last.fm API](https://www.last.fm/api)
@@ -63,7 +68,7 @@
       - On second thought.. this might not work.. Using this API to show similar artists to the current artist will work, but only at a visual capacity. There is no workflow that allows for that similar artist returned from this API to map to the artist entity from the MusicBrainz API. An idea I thought was to do a MusicBrainz API search with the similar artist’s name returned from this API and choose the first one hoping that the artist’s name will be unique enough, but what if the artist’s name is generic? But is it good UX to show similar artists, but can’t conveniently click onto them to see their artist page?
     - [~~TasteDive API~~](https://tastedive.com/read/api)
       - Example: [https://tastedive.com/music/like/Lany](https://tastedive.com/music/like/Lany)
-      - **********************\*\***********************\*\***********************\*\***********************Decided not to go with this API because the documentation is lacking considerably.**********************\*\***********************\*\***********************\*\***********************
+      - Decided not to go with this API because the documentation is lacking considerably.
   - API for finding lyrics
     - [Genius API](https://docs.genius.com/) — [index](https://genius.com/api-clients)
       - The public API does not support many features.. at best, it can return song lyrics. An idea I have to figure out how to seamlessly find lyrics to a song from the MusicBrainz API is to compare the Genius relationship link to a Genius API result’s `primary_artist.url` and if it’s the same, then \***\*that\*\*** song returned from the Genius API is from the official artist.
@@ -165,7 +170,7 @@
     - [Grays](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A3&t=Xj1XHQ70atYNuBnw-1)
     - [Accents](https://www.figma.com/file/EmLEhMW1xDjm8cryUJT591/mellifluous?node-id=142%3A83&t=Xj1XHQ70atYNuBnw-1)
   - Typography
-    **\*\*\*\***\*\*\*\***\*\*\*\***Modular Scale Ratios**\*\*\*\***\*\*\*\***\*\*\*\***
+    Modular Scale Ratios
     - [Spacing](https://www.modularscale.com/?16&px&1.333) — (3:4) perfect fourth – 1.333 ratio
     - [Typography](https://www.modularscale.com/?16&px&1.067) (mobile) — (15:16) minor second – 1.067 ratio
     - [Typography](https://www.modularscale.com/?16&px&1.333) (desktop) — (3:4) perfect fourth – 1.333 ratio
