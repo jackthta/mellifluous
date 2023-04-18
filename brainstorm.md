@@ -53,6 +53,21 @@
         - Extract all the urls from this file and sequentially do a `GET` request for every url and append the data into an array buffer. [See here for reference.](https://github.com/Tenpi/soundcloud.ts/blob/2d5b5318083555ac7b31af631f1267a3c31bfe30/entities/Util.ts#L74)
         - I’m not entirely sure what to do with the array buffer here, but since it should be a readable stream, maybe figure out a way to have the `audio` element “read” from this buffer? Or convert the buffer to something that `audio` element can consume (`[URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)`)?
         - [Another example of doing an HTTP request for an mp3 file and using the `arraybuffer` response type](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery#web_audio_api)
+    - Youtube API
+      - [Data API](https://developers.google.com/youtube/v3)
+        - Base URL: `https://www.googleapis.com/youtube/v3`
+        - [Search](https://developers.google.com/youtube/v3/docs/search/list)
+          - Route: `/search`
+          - [Parameters](https://developers.google.com/youtube/v3/docs/search/list#parameters)
+            - `part` — this should be set to `snippet`
+            - `key` — API key
+            - `type` — `video` (since we’re only searching for videos to stream the music)
+            - `q` — search query
+          - \*Idea: MusicBrainz API returns the YouTube channel ID of the artist. Can pass that ID into the `channelId` param to search for music videos from that official artist channel.
+      - [IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
+        - From the Data API results, [use the `videoId` to complete the `<iframe>` `src` URL](https://developers.google.com/youtube/player_parameters#Selecting_Content_to_Play):
+          - `https://www.youtube.com/embed/**VIDEO_ID**`
+        - [`youtube-player`](https://www.npmjs.com/package/youtube-player) is an abstraction over the YouTube IFrame Player API (YIPA) that makes it a little easier(?) to use.
     - [~~audiomack API~~](https://www.audiomack.com/data-api/docs)
       - The documentation explaining how to authenticate for API usage is lacking some details because I can’t get this working.
       - ~~This API is a **_lot_** more convenient to stream music with. It returns a direct url to an mp3 that you can plug into an `audio` element.~~
