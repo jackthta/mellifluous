@@ -1,0 +1,5 @@
+<!-- Exclude `webpack.config.js` to appease ESLint parsing error
+because it's trying to lint a file that `tsconfig.json` does
+not include. -->
+
+webpack.config.js
