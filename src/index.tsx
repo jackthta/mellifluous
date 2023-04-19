@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import "./style.css";
+import "./style.scss";
 
 function App() {
   return <h1>👋</h1>;
