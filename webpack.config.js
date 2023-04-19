@@ -69,7 +69,7 @@ export default {
       },
 
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         use: [
           // It's recommended to use `style-loader` for development
           // since it's quicker.
@@ -92,25 +92,13 @@ export default {
                     {
                       // Source: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env#browsers
                       browsers: browserTargets,
-
-                      // Source: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env#features
-                      features: {
-                        // Native CSS Nesting is still in Stage 1
-                        // as of April 01, 2023; enable to transpile
-                        // into universally supported syntax.
-                        // Source: https://cssdb.org/#nesting-rules
-                        // Note: this uses the `postcss-nesting`
-                        // plugin.
-                        "nesting-rules": true,
-                      },
                     },
                   ],
-
-                  "postcss-advanced-variables",
                 ],
               },
             },
           },
+          "sass-loader",
         ],
       },
     ],
