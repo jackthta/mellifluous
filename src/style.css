@@ -3,3 +3,71 @@
 *::after {
   box-sizing: border-box;
 }
+
+/* Global CSS variables */
+:root {
+  --text-color: black;
+  --bg-color: white;
+}
+
+/* Responsive font sizing based on viewport */
+html {
+  font-size: clamp(1rem, 0.25rem + 1vw, 1.5rem);
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+
+  font-family: sans-serif;
+  line-height: 1.5;
+  color: var(--text-color);
+
+  background-color: var(--bg-color);
+
+  /* Font anti-aliasing */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+
+  max-width: 100%;
+}
+
+/* Remove some <dialog> defaults */
+dialog {
+  padding: 0;
+
+  border: none;
+}
+
+/* Ensure form field fonts are consistent */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Application container max width */
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+}
