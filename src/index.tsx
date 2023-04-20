@@ -9,5 +9,5 @@ function App() {
   return <RouterProvider router={router}></RouterProvider>;
 }
 
-const body = createRoot(document.body);
-body.render(<App />);
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);
