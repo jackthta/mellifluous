@@ -47,7 +47,9 @@ dd {
 }
 
 body {
+  max-width: 1200px;
   min-height: 100vh;
+  margin: 0 auto;
 
   font-family: sans-serif;
   line-height: 1.5;
@@ -79,10 +81,4 @@ button,
 textarea,
 select {
   font: inherit;
-}
-
-/* Application container max width */
-#root {
-  max-width: 1200px;
-  margin: 0 auto;
 }

@@ -5,5 +5,5 @@ function App() {
   return <h1>👋</h1>;
 }
 
-const root = createRoot(document.getElementById("root"));
-root.render(<App />);
+const body = createRoot(document.body);
+body.render(<App />);
