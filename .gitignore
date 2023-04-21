@@ -6,3 +6,6 @@ build/
 
 # Lint cache
 lint_cache
+
+# macOS system file(s)
+.DS_STORE
