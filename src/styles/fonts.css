@@ -1,0 +1,28 @@
+/*
+  Common weight name mapping
+  Source:https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight#common_weight_name_mapping
+*/
+
+@font-face {
+  font-family: Grafolita;
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/fonts/Grafolita Script/Grafolita-Script-Regular.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: Grafolita;
+  font-style: normal;
+  font-weight: 500;
+  src: url("../assets/fonts/Grafolita Script/Grafolita-Script-Medium.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: Grafolita;
+  font-style: normal;
+  font-weight: 700;
+  src: url("../assets/fonts/Grafolita Script/Grafolita-Script-Bold.woff2")
+    format("woff2");
+}
