@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production webpack",
     "typecheck": "tsc",
     "prettier": "prettier --ignore-path=.gitignore --loglevel=silent --write .",
-    "stylelint": "stylelint 'src/**/*.css' --config='config/stylelint.config.cjs' --cache --cache-location='lint_cache/.stylelintcache' --fix",
+    "stylelint": "stylelint 'src/**/*.scss' --config='config/stylelint.config.cjs' --cache --cache-location='lint_cache/.stylelintcache' --fix",
     "eslint": "eslint 'src/**/*.{js,ts,tsx}' --config='config/.eslintrc.cjs' --cache --cache-location='lint_cache/.eslintcache' --fix"
   },
   "repository": {
@@ -54,6 +54,7 @@
     "stylelint": "^15.4.0",
     "stylelint-config-recess-order": "^4.0.0",
     "stylelint-config-standard": "^32.0.0",
+    "stylelint-config-standard-scss": "^9.0.0",
     "stylelint-order": "^6.0.3",
     "typescript": "^5.0.3",
     "webpack": "^5.77.0",

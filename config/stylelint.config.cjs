@@ -6,7 +6,7 @@ const propertyGroups = require("stylelint-config-recess-order/groups");
 // doesn't work well with you, create your own ordering
 // config.
 module.exports = {
-  extends: ["stylelint-config-standard"],
+  extends: ["stylelint-config-standard", "stylelint-config-standard-scss"],
   // `stylelint-order` is needed for the
   // `"order/*"` rules which drive property
   // ordering.
@@ -21,6 +21,12 @@ module.exports = {
       emptyLineBefore: "always",
       noEmptyLineBetween: true,
     })),
+
+    "selector-class-pattern": null,
+    "font-family-no-missing-generic-family-keyword": null,
+
+    // SCSS rules
+    "scss/no-global-function-names": null,
   },
 };
 
