@@ -1,0 +1,19 @@
+@use "../../styles/utilities/functions" as *;
+
+.main {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+}
+
+.heading {
+  font-size: clamped(28px, 35px);
+  font-weight: 600;
+}

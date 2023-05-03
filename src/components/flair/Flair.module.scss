@@ -1,0 +1,9 @@
+@use "../../styles/utilities/functions" as *;
+
+.flair {
+  width: clamped(144px, 208px);
+  height: 7px;
+
+  background-color: #79061a;
+  border: none;
+}

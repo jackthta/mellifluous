@@ -1,0 +1,143 @@
+@use "../../styles/utilities/variables" as *;
+@use "../../styles/utilities/functions" as *;
+
+.searchContainer {
+  width: 100%;
+}
+
+.tablist {
+  display: flex;
+
+  max-width: 500px;
+
+  background-color: var(--bg-color);
+  border: 1px solid #666;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+
+.tab {
+  flex: 1;
+
+  padding-top: 0.5rem;
+
+  // Subtract the width of the "active"
+  // border-bottom from the padding to properly
+  // vertically center tab label.
+  padding-bottom: calc(0.5rem - 3px);
+
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  background-color: inherit;
+  border: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  &[aria-selected="true"] {
+    color: #b2001e;
+
+    border-bottom: 3px solid currentcolor;
+  }
+
+  &[aria-selected="false"] {
+    color: #808080;
+
+    border-bottom: 3px solid transparent;
+  }
+}
+
+.tabpanel {
+  background-color: var(--bg-color);
+  border: 1px solid #666;
+  border-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  box-shadow: 0 4px 4px hsl(0deg 0% 0% / 25%);
+
+  // Container queries would be best to align
+  // the `min-width` to the `max-width` of
+  // `.tablist`. Manually tuned to make
+  // transition flush.
+  @media (width >= 806px) {
+    border-top-right-radius: 5px;
+  }
+}
+
+.form {
+  display: flex;
+
+  flex-direction: column;
+
+  @media (width >= 806px) {
+    flex-direction: row;
+  }
+}
+
+.formfield {
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 0.5rem;
+  padding-bottom: 0;
+
+  color: #808080;
+
+  > div {
+    display: flex;
+
+    flex: 1;
+    flex-direction: column;
+  }
+
+  &:focus-within {
+    color: #b2001e;
+
+    border-radius: 2px;
+    outline: 2px solid currentcolor;
+  }
+
+  @media (width >= 806px) {
+    flex: 1;
+    flex-direction: row;
+
+    padding: 0.5rem;
+    padding-right: 0;
+  }
+}
+
+.formfieldLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.formfieldInput {
+  height: 2.5rem;
+
+  font-size: var(--font-size-md);
+
+  border: none;
+  outline: none;
+}
+
+.searchButton {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  padding: 0.5rem;
+
+  color: #4d4d4d;
+
+  background-color: inherit;
+  border: none;
+
+  @media (width >= 806px) {
+    flex: 0 1 5rem;
+  }
+}

@@ -1,0 +1,18 @@
+.separator {
+  width: 100%;
+  margin: 0;
+
+  border: none;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.inSearchSeparator {
+  // Search component specifically needs a vertical separator
+  @media (width >= 806px) {
+    width: 1px;
+    height: 100%;
+
+    border: none;
+    border-right: 1px solid #e6e6e6;
+  }
+}

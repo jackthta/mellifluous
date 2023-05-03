@@ -1,6 +1,6 @@
 import { RootRoute, Route, Router } from "@tanstack/router";
 
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 
 const rootRoute = new RootRoute();
 const homeRoute = new Route({
