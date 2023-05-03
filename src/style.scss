@@ -2,7 +2,6 @@
 @use "./styles/utilities/functions" as *;
 @use "sass:list";
 @use "sass:math";
-
 @import "./styles/fonts.css";
 
 *,
@@ -27,9 +26,8 @@
   }
 }
 
-/* Responsive font sizing based on viewport */
 html {
-  font-size: clamp(1rem, 0.25rem + 1vw, 1.5rem);
+  font-size: 1rem;
 }
 
 /* Remove default margin */
