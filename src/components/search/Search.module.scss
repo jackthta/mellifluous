@@ -60,7 +60,8 @@
   // Container queries would be best to align
   // the `min-width` to the `max-width` of
   // `.tablist`. Manually tuned to make
-  // transition flush.
+  // transition flush after `.tabpanel`'s width
+  // expands past `.tablist`'s `max-width`.
   @media (width >= 806px) {
     border-top-right-radius: 5px;
   }
@@ -96,6 +97,9 @@
   &:focus-within {
     color: #b2001e;
 
+    // "Branded" outline style
+    // TODO: override default outline style
+    // to this.
     border-radius: 2px;
     outline: 2px solid currentcolor;
   }
