@@ -5,15 +5,20 @@
 
   flex-direction: column;
 
-  gap: 1rem;
+  gap: 1.5rem;
 
   align-items: center;
   justify-content: center;
 
   height: 100%;
+
+  @media (width >= 806px) {
+    align-items: flex-start;
+  }
 }
 
 .heading {
   font-size: clamped(28px, 35px);
   font-weight: 600;
+  line-height: 1;
 }
