@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import SVG from "../SVG";
 import Separator from "../separator/Separator";
 
-import type { KeyboardEvent, Dispatch, SetStateAction } from "react";
+import type { FormEvent, KeyboardEvent, Dispatch, SetStateAction } from "react";
 
 import CSS from "./Search.module.scss";
 
@@ -11,6 +11,10 @@ enum SEARCH_TYPE {
   Song,
   Album,
   Artist,
+}
+enum FORMFIELD {
+  NAME = "Name",
+  ARTIST = "Artist",
 }
 const SEARCH_TYPE_LENGTH = 3;
 
@@ -36,7 +40,26 @@ function Tab({ type, activeTab, setActiveTab }: TabProps) {
 }
 
 export default function Search() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [activeTab, setActiveTab] = useState(SEARCH_TYPE.Song);
+  const [nameIsEmpty, setNameIsEmpty] = useState(null);
+
+  const onSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = new FormData(formRef.current);
+
+    // Name input is required, but empty.
+    if (form.get(FORMFIELD.NAME).toString().trim().length === 0) {
+      setNameIsEmpty(true);
+      return;
+    }
+
+    // TODO: Navigate to search results page and add search query params into URL
+    // In search results page, dispatch fetch request to MusicBrainz
+    // If fetch request fails, add automatic, manual, or both retry
+    // (automatically for 3 retries, then a manual button to retry)
+  };
 
   // Need to slice first three elements
   // because `Object.values` returns an
@@ -72,13 +95,32 @@ export default function Search() {
         tabIndex={0}
         aria-labelledby={`${SEARCH_TYPE[activeTab]}-tab`}
       >
-        <form className={CSS.form}>
+        <form className={CSS.form} onSubmit={onSearch} ref={formRef}>
           <div className={CSS.formfield}>
             <div>
-              <label className={CSS.formfieldLabel} htmlFor="search-name">
+              <label
+                className={CSS.formfieldLabel}
+                style={{ color: `${nameIsEmpty ? "#b2001e" : "currentColor"}` }}
+                htmlFor="search-name"
+              >
                 Name
               </label>
-              <input id="search-name" className={CSS.formfieldInput} />
+              <input
+                id="search-name"
+                className={CSS.formfieldInput}
+                aria-required="true"
+                name={`${FORMFIELD.NAME}`}
+                onChange={({ target: formfield }) =>
+                  setNameIsEmpty(
+                    formfield.value.trim().length === 0 ? true : false
+                  )
+                }
+              />
+              {nameIsEmpty && (
+                <p className={CSS.requiredErrorMessage}>
+                  This field is required.
+                </p>
+              )}
             </div>
 
             <Separator inSearch />
@@ -92,9 +134,13 @@ export default function Search() {
           >
             <div>
               <label className={CSS.formfieldLabel} htmlFor="search-artist">
-                Artist
+                Artist <span className={CSS.optionalLabel}>(optional)</span>
               </label>
-              <input id="search-artist" className={CSS.formfieldInput} />
+              <input
+                id="search-artist"
+                className={CSS.formfieldInput}
+                name={`${FORMFIELD.ARTIST}`}
+              />
             </div>
 
             <Separator inSearch />

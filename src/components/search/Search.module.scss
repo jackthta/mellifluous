@@ -116,6 +116,12 @@
 .formfieldLabel {
   font-size: var(--font-size-xs);
   font-weight: 500;
+
+  .optionalLabel {
+    font-size: var(--font-size-xxs);
+    font-style: italic;
+    font-weight: 300;
+  }
 }
 
 .formfieldInput {
@@ -144,4 +150,10 @@
   @media (width >= 806px) {
     flex: 0 1 5rem;
   }
+}
+
+.requiredErrorMessage {
+  font-size: var(--font-size-xs);
+  font-style: italic;
+  color: #b2001e;
 }
