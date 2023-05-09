@@ -24,6 +24,26 @@ type TabProps = {
   setActiveTab: Dispatch<SetStateAction<SEARCH_TYPE>>;
 };
 function Tab({ type, activeTab, setActiveTab }: TabProps) {
+  const onChangeTabs = () => {
+    // Reset form fields
+    const nameInput = document.getElementById("search-name");
+    const artistInput = document.getElementById("search-artist");
+    switch (SEARCH_TYPE[type]) {
+      case "Song":
+      case "Album":
+        (nameInput as HTMLInputElement).value = "";
+        (artistInput as HTMLInputElement).value = "";
+        break;
+      case "Artist":
+        // Artist tab's form has no artist input, only name.
+        (nameInput as HTMLInputElement).value = "";
+        (artistInput as HTMLInputElement).value = null;
+        break;
+    }
+
+    setActiveTab(type);
+  };
+
   return (
     <button
       id={`${SEARCH_TYPE[type]}-tab`}
@@ -32,7 +52,7 @@ function Tab({ type, activeTab, setActiveTab }: TabProps) {
       tabIndex={activeTab === type ? 0 : -1}
       aria-selected={activeTab === type}
       aria-controls="search-form"
-      onClick={activeTab === type ? null : () => setActiveTab(type)}
+      onClick={activeTab === type ? null : onChangeTabs}
     >
       {SEARCH_TYPE[type]}
     </button>
