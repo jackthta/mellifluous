@@ -16,12 +16,7 @@ export default function BaseLayout({ children }: Props) {
     <>
       <header className={CSS.header}>
         <nav className={CSS.navigation}>
-          <Link
-            to="/"
-            activeProps={{
-              className: CSS.brandLink,
-            }}
-          >
+          <Link to="/" className={CSS.brandLink}>
             mellifluous
           </Link>
         </nav>
