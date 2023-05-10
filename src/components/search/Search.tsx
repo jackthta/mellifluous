@@ -69,7 +69,7 @@ function Tab({
 export default function Search() {
   const formRef = useRef<HTMLFormElement>(null);
   const [activeTab, setActiveTab] = useState(SEARCH_TYPE.Song);
-  const [nameIsEmpty, setNameIsEmpty] = useState(null);
+  const [nameIsEmptyError, setNameIsEmptyError] = useState(null);
 
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,7 +78,7 @@ export default function Search() {
 
     // Name input is required, but empty.
     if (form.get(FORMFIELD.NAME).toString().trim().length === 0) {
-      setNameIsEmpty(true);
+      setNameIsEmptyError(true);
       return;
     }
 
@@ -101,7 +101,7 @@ export default function Search() {
         type={+type}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        resetErrorMessageState={() => setNameIsEmpty(null)}
+        resetErrorMessageState={() => setNameIsEmptyError(null)}
       />
     ));
 
@@ -128,7 +128,9 @@ export default function Search() {
             <div>
               <label
                 className={CSS.formfieldLabel}
-                style={{ color: `${nameIsEmpty ? "#b2001e" : "currentColor"}` }}
+                style={{
+                  color: `${nameIsEmptyError ? "#b2001e" : "currentColor"}`,
+                }}
                 htmlFor="search-name"
               >
                 Name
@@ -139,12 +141,12 @@ export default function Search() {
                 aria-required="true"
                 name={`${FORMFIELD.NAME}`}
                 onChange={({ target: formfield }) =>
-                  setNameIsEmpty(
+                  setNameIsEmptyError(
                     formfield.value.trim().length === 0 ? true : false
                   )
                 }
               />
-              {nameIsEmpty && (
+              {nameIsEmptyError && (
                 <p className={CSS.requiredErrorMessage}>
                   This field is required.
                 </p>
