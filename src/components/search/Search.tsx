@@ -22,8 +22,14 @@ type TabProps = {
   type: number;
   activeTab: SEARCH_TYPE;
   setActiveTab: Dispatch<SetStateAction<SEARCH_TYPE>>;
+  resetErrorMessageState: () => void;
 };
-function Tab({ type, activeTab, setActiveTab }: TabProps) {
+function Tab({
+  type,
+  activeTab,
+  setActiveTab,
+  resetErrorMessageState,
+}: TabProps) {
   const onChangeTabs = () => {
     // Reset form fields
     const nameInput = document.getElementById("search-name");
@@ -41,6 +47,7 @@ function Tab({ type, activeTab, setActiveTab }: TabProps) {
         break;
     }
 
+    resetErrorMessageState();
     setActiveTab(type);
   };
 
@@ -94,6 +101,7 @@ export default function Search() {
         type={+type}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        resetErrorMessageState={() => setNameIsEmpty(null)}
       />
     ));
 
