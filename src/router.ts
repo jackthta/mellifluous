@@ -1,4 +1,4 @@
-import { RootRoute, Route, Router } from "@tanstack/router";
+import { RootRoute, Route, Router, createHashHistory } from "@tanstack/router";
 
 import Home from "./pages/home/Home";
 
@@ -11,7 +11,7 @@ const homeRoute = new Route({
 
 const routeTree = rootRoute.addChildren([homeRoute]);
 
-export const router = new Router({ routeTree });
+export const router = new Router({ routeTree, history: createHashHistory() });
 
 // Source: https://tanstack.com/router/v1/docs/guide/routes#registering-router-types
 declare module "@tanstack/router" {
