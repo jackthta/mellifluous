@@ -1,14 +1,16 @@
-import { RootRoute, Route, Router, createHashHistory } from "@tanstack/router";
+import { RootRoute, Router, createHashHistory } from "@tanstack/router";
 
-import Home from "./pages/home/Home";
+import { homeRoute } from "./pages/home/Home";
 
-const rootRoute = new RootRoute();
-const homeRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: Home,
-});
+export const rootRoute = new RootRoute();
 
+// NOTE: The routes are located on their page component counterpart
+// instead of here, because of this pattern that TanStack Router
+// seems to impose (@see https://tanstack.com/router/v1/docs/guide/search-params#search-params-in-components).
+// I would prefer to have all the routes centralized in this file,
+// but the aforementioned pattern makes it difficult to have things
+// be consistent (i.e., there would be some routes in some component
+// files and some routes here; potential for confusion).
 const routeTree = rootRoute.addChildren([homeRoute]);
 
 export const router = new Router({ routeTree, history: createHashHistory() });

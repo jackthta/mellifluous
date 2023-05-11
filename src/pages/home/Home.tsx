@@ -1,3 +1,7 @@
+import { Route } from "@tanstack/router";
+
+import { rootRoute } from "../../router";
+
 import Flair from "../../components/flair/Flair";
 import Search from "../../components/search/Search";
 
@@ -18,3 +22,9 @@ export default function Home() {
     </BaseLayout>
   );
 }
+
+export const homeRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: Home,
+});
