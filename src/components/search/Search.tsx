@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "@tanstack/router";
 
 import SVG from "../SVG";
 import Separator from "../separator/Separator";
@@ -67,6 +68,7 @@ function Tab({
 }
 
 export default function Search() {
+  const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
   const [activeTab, setActiveTab] = useState(SEARCH_TYPE.Song);
   const [nameIsEmptyError, setNameIsEmptyError] = useState(null);
@@ -82,10 +84,18 @@ export default function Search() {
       return;
     }
 
-    // TODO: Navigate to search results page and add search query params into URL
-    // In search results page, dispatch fetch request to MusicBrainz
-    // If fetch request fails, add automatic, manual, or both retry
-    // (automatically for 3 retries, then a manual button to retry)
+    const searchParams = {
+      type: SEARCH_TYPE[activeTab],
+      name: form.get(FORMFIELD.NAME),
+      artist: form.get(FORMFIELD.ARTIST),
+    };
+    if (SEARCH_TYPE[activeTab] === "Artist" || searchParams.artist.length === 0)
+      delete searchParams.artist;
+
+    void navigate({
+      to: "/search",
+      search: searchParams,
+    });
   };
 
   // Need to slice first three elements
