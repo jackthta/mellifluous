@@ -11,6 +11,8 @@ type Props = {
   children: ReactNode;
 };
 
+// TODO: maybe make background SVG conditional so
+// that other pages that don't use it can still use <BaseLayout>
 export default function BaseLayout({ children }: Props) {
   return (
     <>

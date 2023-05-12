@@ -101,6 +101,11 @@ export default {
           "sass-loader",
         ],
       },
+
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+      },
     ],
   },
 

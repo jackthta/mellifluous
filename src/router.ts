@@ -1,6 +1,7 @@
 import { RootRoute, Router, createHashHistory } from "@tanstack/router";
 
 import { homeRoute } from "./pages/home/Home";
+import { searchResultsRoute } from "./pages/search-results/SearchResults";
 
 export const rootRoute = new RootRoute();
 
@@ -11,7 +12,7 @@ export const rootRoute = new RootRoute();
 // but the aforementioned pattern makes it difficult to have things
 // be consistent (i.e., there would be some routes in some component
 // files and some routes here; potential for confusion).
-const routeTree = rootRoute.addChildren([homeRoute]);
+const routeTree = rootRoute.addChildren([homeRoute, searchResultsRoute]);
 
 export const router = new Router({ routeTree, history: createHashHistory() });
 

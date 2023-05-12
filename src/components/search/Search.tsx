@@ -9,9 +9,9 @@ import type { FormEvent, KeyboardEvent, Dispatch, SetStateAction } from "react";
 import CSS from "./Search.module.scss";
 
 enum SEARCH_TYPE {
-  Song,
-  Album,
-  Artist,
+  song,
+  album,
+  artist,
 }
 enum FORMFIELD {
   NAME = "Name",
@@ -36,12 +36,12 @@ function Tab({
     const nameInput = document.getElementById("search-name");
     const artistInput = document.getElementById("search-artist");
     switch (SEARCH_TYPE[type]) {
-      case "Song":
-      case "Album":
+      case "song":
+      case "album":
         (nameInput as HTMLInputElement).value = "";
         (artistInput as HTMLInputElement).value = "";
         break;
-      case "Artist":
+      case "artist":
         // Artist tab's form has no artist input, only name.
         (nameInput as HTMLInputElement).value = "";
         (artistInput as HTMLInputElement).value = null;
@@ -70,7 +70,7 @@ function Tab({
 export default function Search() {
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
-  const [activeTab, setActiveTab] = useState(SEARCH_TYPE.Song);
+  const [activeTab, setActiveTab] = useState(SEARCH_TYPE.song);
   const [nameIsEmptyError, setNameIsEmptyError] = useState(null);
 
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
@@ -86,10 +86,10 @@ export default function Search() {
 
     const searchParams = {
       type: SEARCH_TYPE[activeTab],
-      name: form.get(FORMFIELD.NAME),
-      artist: form.get(FORMFIELD.ARTIST),
+      name: form.get(FORMFIELD.NAME).toString(),
+      artist: form.get(FORMFIELD.ARTIST).toString(),
     };
-    if (SEARCH_TYPE[activeTab] === "Artist" || searchParams.artist.length === 0)
+    if (SEARCH_TYPE[activeTab] === "artist" || searchParams.artist.length === 0)
       delete searchParams.artist;
 
     void navigate({
@@ -166,11 +166,11 @@ export default function Search() {
             <Separator inSearch />
           </div>
 
-          {/* Would prefer to use `hidden={activeTab === SEARCH_TYPE.Artist}` here,
+          {/* Would prefer to use `hidden={activeTab === SEARCH_TYPE.artist}` here,
           but `className` seems to take precedence */}
           <div
             className={CSS.formfield}
-            style={activeTab === SEARCH_TYPE.Artist ? { display: "none" } : {}}
+            style={activeTab === SEARCH_TYPE.artist ? { display: "none" } : {}}
           >
             <div>
               <label className={CSS.formfieldLabel} htmlFor="search-artist">

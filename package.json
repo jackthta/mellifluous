@@ -30,6 +30,8 @@
     "@babel/preset-typescript": "^7.21.4",
     "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
+    "@types/country-list": "^2.1.1",
+    "@types/dompurify": "^3.0.2",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
@@ -56,6 +58,7 @@
     "stylelint-config-standard": "^32.0.0",
     "stylelint-config-standard-scss": "^9.0.0",
     "stylelint-order": "^6.0.3",
+    "svg-inline-loader": "^0.8.2",
     "typescript": "^5.0.3",
     "webpack": "^5.77.0",
     "webpack-cli": "^5.0.1",
@@ -65,6 +68,8 @@
     "@tanstack/router": "^0.0.1-beta.84",
     "axios": "^1.4.0",
     "core-js": "^3.30.0",
+    "country-list": "^2.3.0",
+    "dompurify": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
