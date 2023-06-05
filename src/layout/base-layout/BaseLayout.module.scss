@@ -1,11 +1,4 @@
 @use "../../styles/utilities/mixins" as *;
-@use "../../styles/utilities/functions" as *;
-
-@mixin clamped-container {
-  width: clamped(300px, 1200px);
-
-  @include horizontal-padding;
-}
 
 .header {
   display: flex;
@@ -34,12 +27,6 @@
 
   background: url("../../assets/svgs/curve-line-bottom-right.svg") no-repeat
     center/cover;
-
-  .main {
-    height: 100%;
-
-    @include clamped-container;
-  }
 }
 
 .footerContainer {
@@ -51,8 +38,6 @@
     flex: 0 0 30%;
 
     background-color: #f2f2f2;
-
-    @include horizontal-padding;
   }
 
   .footerWrapper {

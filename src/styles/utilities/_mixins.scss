@@ -1,6 +1,12 @@
+@use "./functions" as *;
+
 @mixin horizontal-padding {
   padding: {
     right: 2.5rem;
     left: 2.5rem;
   }
+}
+
+@mixin clamped-container {
+  width: clamped(300px, 1200px);
 }

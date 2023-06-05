@@ -24,9 +24,7 @@ export default function BaseLayout({ children }: Props) {
         </nav>
       </header>
 
-      <main className={CSS.mainContainer}>
-        <div className={CSS.main}>{children}</div>
-      </main>
+      <main className={CSS.mainContainer}>{children}</main>
 
       <footer className={CSS.footerContainer}>
         {/* TODO: Light/Dark mode switch */}

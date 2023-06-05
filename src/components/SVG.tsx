@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { sanitize as sanitizeHtml } from "dompurify";
 
+// Enhancement: refactor <SVG> component so that it's not so repetitive (DRY).
+
 type SVGProps = {
-  name: "github" | "search" | "person" | "group";
+  name: "github" | "search" | "person" | "group" | "chevron-left";
   className?: string;
 };
 export default function SVG({ name, className }: SVGProps) {
@@ -15,6 +17,8 @@ export default function SVG({ name, className }: SVGProps) {
       return PersonSVG(className);
     case "group":
       return GroupSVG(className);
+    case "chevron-left":
+      return ChevronLeftSVG(className);
   }
 }
 
@@ -155,6 +159,27 @@ function GroupSVG(className: string) {
       />
       <path
         d="M14 10a3 3 0 1 0 0-6m-3 9H7a4 4 0 0 0-4 4 3 3 0 0 0 3 3h6a3 3 0 0 0 3-3 4 4 0 0 0-4-4Zm6 0a4 4 0 0 1 4 4 3 3 0 0 1-3 3"
+        stroke="#333"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ChevronLeftSVG(className: string) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+    >
+      <path
+        d="m10 12.4 4.5 5.4M10 12.4 14.5 7"
         stroke="#333"
         strokeWidth="2"
         strokeLinecap="round"

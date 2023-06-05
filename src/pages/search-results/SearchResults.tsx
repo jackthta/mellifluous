@@ -14,7 +14,12 @@ import BaseLayout from "../../layout/base-layout/BaseLayout";
 import CSS from "./SearchResults.module.scss";
 
 import type { AxiosError } from "axios";
-import type { Artist, Recording, Release } from "../../types/api/MusicBrainz";
+import type {
+  Artist,
+  Recording,
+  Release,
+  Release_Release,
+} from "../../types/api/MusicBrainz";
 
 const SEARCH_RESULTS_RETURNED_PER_REQUEST = 25;
 
@@ -37,14 +42,18 @@ export default function SearchResults() {
     searchResults && searchResults[`${entity}s`].length < searchResults.count;
 
   const onKeyboardToNavigateToParticularPage = (
-    pressedKey: React.KeyboardEvent<HTMLTableRowElement>
+    e: React.KeyboardEvent<HTMLTableRowElement>
   ) => {
-    if (pressedKey.code === "Space" || pressedKey.code === "Enter") {
-      onNavigateToParticularPage();
+    const pressedKey = e.code;
+    if (pressedKey === "Space" || pressedKey === "Enter") {
+      // `rowIndex` uses one-based indexing.
+      onNavigateToParticularPage(
+        (e.target as HTMLTableRowElement).rowIndex - 1
+      );
     }
   };
 
-  const onNavigateToParticularPage = () => {
+  const onNavigateToParticularPage = (clickedSearchResultIndex: number) => {
     let destination: string;
 
     switch (type) {
@@ -52,9 +61,16 @@ export default function SearchResults() {
         // TODO: set to song route
         break;
 
-      case "album":
-        // TODO: set to album route
+      case "album": {
+        const album = searchResults[`${entity}s`][
+          clickedSearchResultIndex
+        ] as Release_Release;
+        const albumTitle = album.title.replace(" ", "-").toLowerCase();
+
+        destination = `/album/${albumTitle}/${album.id}`;
+
         break;
+      }
 
       case "artist":
         // TODO: set to artist route
@@ -64,7 +80,7 @@ export default function SearchResults() {
         return;
     }
 
-    // void navigate({ to: destination, from: rootRoute.path });
+    void navigate({ to: destination, from: rootRoute.path });
   };
 
   const onLoadMoreSearchResults = () => setPage(page + 1);
@@ -315,7 +331,15 @@ export default function SearchResults() {
           return (
             <tr
               key={recording.id}
-              onClick={onNavigateToParticularPage}
+              onClick={(e: React.MouseEvent<HTMLTableRowElement>) =>
+                // `rowIndex` uses one-based indexing.
+                onNavigateToParticularPage(
+                  (
+                    (e.target as HTMLTableCellElement)
+                      .parentElement as HTMLTableRowElement
+                  ).rowIndex - 1
+                )
+              }
               onKeyDown={onKeyboardToNavigateToParticularPage}
               tabIndex={0}
             >
@@ -369,7 +393,15 @@ export default function SearchResults() {
           return (
             <tr
               key={release.id}
-              onClick={onNavigateToParticularPage}
+              onClick={(e: React.MouseEvent<HTMLTableRowElement>) =>
+                // `rowIndex` uses one-based indexing.
+                onNavigateToParticularPage(
+                  (
+                    (e.target as HTMLTableCellElement)
+                      .parentElement as HTMLTableRowElement
+                  ).rowIndex - 1
+                )
+              }
               onKeyDown={onKeyboardToNavigateToParticularPage}
               tabIndex={0}
             >
@@ -430,7 +462,15 @@ export default function SearchResults() {
         return (
           <tr
             key={artist.id}
-            onClick={onNavigateToParticularPage}
+            onClick={(e: React.MouseEvent<HTMLTableRowElement>) =>
+              // `rowIndex` uses one-based indexing.
+              onNavigateToParticularPage(
+                (
+                  (e.target as HTMLTableCellElement)
+                    .parentElement as HTMLTableRowElement
+                ).rowIndex - 1
+              )
+            }
             onKeyDown={onKeyboardToNavigateToParticularPage}
             tabIndex={0}
           >

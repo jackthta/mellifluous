@@ -7,3 +7,7 @@ export const MusicBrainz = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const CoverArtArchive = axios.create({
+  baseURL: "https://coverartarchive.org/release/",
+});

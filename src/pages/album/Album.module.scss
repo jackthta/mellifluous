@@ -1,1 +1,153 @@
-/* stylelint-disable */
+@use "../../styles/utilities/mixins" as *;
+
+.container {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1.5rem;
+
+  align-items: center;
+
+  width: 100%;
+}
+
+.main {
+  display: grid;
+
+  gap: 1.5rem;
+
+  justify-items: center;
+
+  padding-top: 1.5rem;
+
+  @media (width >= 700px) {
+    justify-items: start;
+  }
+
+  @include clamped-container;
+}
+
+.artistBackLink {
+  display: flex;
+
+  align-items: center;
+  justify-self: start;
+}
+
+.heroContainer {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1.5rem;
+
+  @media (width >= 700px) {
+    flex-direction: row;
+  }
+}
+
+.coverArt {
+  border-radius: 5px;
+}
+
+.albumInfoContainer {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1.2;
+
+  @media (width >= 700px) {
+    align-items: start;
+  }
+
+  .albumTitle {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+  }
+
+  .albumArtist {
+    font-size: var(--font-size-base);
+  }
+
+  .albumReleaseYear {
+    font-size: var(--font-size-xs);
+    color: #666;
+  }
+}
+
+.tracklist {
+  display: flex;
+
+  flex-direction: column;
+
+  width: 100%;
+
+  .track {
+    display: flex;
+
+    gap: 1rem;
+
+    padding: 1rem;
+
+    border-radius: 5px;
+
+    .trackPosition {
+      // This allows space for the text align to work
+      // properly. It's good UI design to have numbers
+      // be right aligned. Without the proper space,
+      // it can only be left aligned. Only potential
+      // issue is if the album has more than three digits
+      // of songs, but I'm assuming the majority of albums
+      // out there have at most a double digit amount of songs.
+      // An enhancement would be to dynamically calculate
+      // the number of songs in the album and use that as
+      // the `ch` value.
+      width: 2ch;
+
+      color: #666;
+      text-align: end;
+    }
+
+    .trackTitle {
+      font-weight: 500;
+    }
+
+    .trackDuration {
+      margin-left: auto;
+
+      color: #666;
+    }
+
+    // Zebra-stripe track list
+    &:nth-child(odd) {
+      background-color: #f7f7f7;
+    }
+  }
+}
+
+.albumMetaDataContainer {
+  width: 100%;
+
+  background-color: #fbf4f4;
+}
+
+.albumMetaData {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.5rem;
+
+  padding: 1rem 0;
+  margin: 0 auto;
+
+  font-size: var(--font-size-sm);
+  color: #666;
+
+  @include clamped-container;
+}

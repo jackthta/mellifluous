@@ -1,3 +1,5 @@
+@use "../../styles/utilities/mixins" as *;
+
 .container {
   display: flex;
 
@@ -6,6 +8,8 @@
   gap: 1.75rem;
 
   padding: 1.75rem 0;
+
+  @include clamped-container;
 }
 
 .tableSummary {

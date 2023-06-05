@@ -82,7 +82,7 @@ export type Release = Entity & {
   releases: Release_Release[];
 };
 
-type Release_Release = {
+export type Release_Release = {
   id: string;
   score: string;
   title: string;
@@ -136,8 +136,21 @@ type Release_Release_LabelInfo_Label = {
 
 type Release_Release_Media = {
   format: string;
-  "disc-count": number;
+  "format-id": string;
+  position: number;
+  title: string;
   "track-count": number;
+  "track-offset": number;
+  tracks: Release_Release_Media_Track[];
+};
+
+type Release_Release_Media_Track = {
+  id: string;
+  "artist-credit": ArtistCredit[];
+  length: number;
+  number: string;
+  position: number;
+  title: string;
 };
 
 // ****************************************
