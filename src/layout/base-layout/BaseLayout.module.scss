@@ -24,7 +24,9 @@
   display: flex;
 
   justify-content: center;
+}
 
+.backgroundCurveSVG {
   background: url("../../assets/svgs/curve-line-bottom-right.svg") no-repeat
     center/cover;
 }

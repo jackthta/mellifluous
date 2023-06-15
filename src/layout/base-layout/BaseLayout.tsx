@@ -8,12 +8,23 @@ import CSS from "./BaseLayout.module.scss";
 import "./BaseLayout.scss";
 
 type Props = {
+  withBackgroundCurveSVG?: boolean;
   children: ReactNode;
 };
 
-// TODO: maybe make background SVG conditional so
-// that other pages that don't use it can still use <BaseLayout>
-export default function BaseLayout({ children }: Props) {
+const defaultProps: Props = {
+  withBackgroundCurveSVG: false,
+  children: <></>,
+};
+
+const BaseLayout: React.FC<Props> = ({
+  withBackgroundCurveSVG,
+  children,
+}: Props) => {
+  const mainClass = `${CSS.mainContainer} ${
+    withBackgroundCurveSVG ? CSS.backgroundCurveSVG : ""
+  }`;
+
   return (
     <>
       <header className={CSS.header}>
@@ -24,7 +35,7 @@ export default function BaseLayout({ children }: Props) {
         </nav>
       </header>
 
-      <main className={CSS.mainContainer}>{children}</main>
+      <main className={mainClass}>{children}</main>
 
       <footer className={CSS.footerContainer}>
         {/* TODO: Light/Dark mode switch */}
@@ -49,4 +60,8 @@ export default function BaseLayout({ children }: Props) {
       </footer>
     </>
   );
-}
+};
+
+BaseLayout.defaultProps = defaultProps;
+
+export default BaseLayout;

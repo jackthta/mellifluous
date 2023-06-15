@@ -11,7 +11,7 @@ import CSS from "./Home.module.scss";
 
 export default function Home() {
   return (
-    <BaseLayout>
+    <BaseLayout withBackgroundCurveSVG>
       <div className={CSS.main}>
         <h1 className={CSS.heading}>Music is peace.</h1>
 
