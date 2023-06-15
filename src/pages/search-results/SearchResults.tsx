@@ -65,7 +65,7 @@ export default function SearchResults() {
         const album = searchResults[`${entity}s`][
           clickedSearchResultIndex
         ] as Release_Release;
-        const albumTitle = album.title.replace(" ", "-").toLowerCase();
+        const albumTitle = album.title.replaceAll(" ", "-").toLowerCase();
 
         destination = `/album/${albumTitle}/${album.id}`;
 

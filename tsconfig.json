@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    // Need to set these to stop TSC from
+    // squigglying modern ES methods +
+    // DOM API methods/properties
+    "lib": ["ESNext", "DOM"],
     // Disable compiler from outputting files
     "noEmit": true,
     // Appease IDE TS highlighted error:
