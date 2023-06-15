@@ -104,7 +104,7 @@ export default {
 
       {
         test: /\.svg$/,
-        loader: "svg-inline-loader",
+        type: "asset/resource",
       },
     ],
   },
