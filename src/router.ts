@@ -3,6 +3,7 @@ import { RootRoute, Router, createHashHistory } from "@tanstack/router";
 import { homeRoute } from "./pages/home/Home";
 import { searchResultsRoute } from "./pages/search-results/SearchResults";
 import { albumRoute } from "./pages/album/Album";
+import { artistRoute } from "./pages/artist/Artist";
 
 export const rootRoute = new RootRoute();
 
@@ -17,6 +18,7 @@ const routeTree = rootRoute.addChildren([
   homeRoute,
   searchResultsRoute,
   albumRoute,
+  artistRoute,
 ]);
 
 export const router = new Router({ routeTree, history: createHashHistory() });
