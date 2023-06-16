@@ -160,7 +160,7 @@ export type Artist = Entity & {
   artists: Artist_Artist[];
 };
 
-type Artist_Artist = {
+export type Artist_Artist = {
   id: string;
   type?: "Person" | "Group";
   score: string;
