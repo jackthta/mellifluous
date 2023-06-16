@@ -16,6 +16,7 @@ import CSS from "./SearchResults.module.scss";
 import type { AxiosError } from "axios";
 import type {
   Artist,
+  Artist_Artist,
   Recording,
   Release,
   Release_Release,
@@ -72,9 +73,15 @@ export default function SearchResults() {
         break;
       }
 
-      case "artist":
-        // TODO: set to artist route
+      case "artist": {
+        const artist = searchResults[`${entity}s`][
+          clickedSearchResultIndex
+        ] as Artist_Artist;
+        const artistName = artist.name.replaceAll(" ", "-").toLowerCase();
+
+        destination = `/artist/${artistName}/${artist?.id}`;
         break;
+      }
 
       default:
         return;
