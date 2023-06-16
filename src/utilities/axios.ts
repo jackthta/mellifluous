@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// `inc` parameter: https://musicbrainz.org/doc/MusicBrainz_API#inc.3D
 export const MusicBrainz = axios.create({
   baseURL: "https://musicbrainz.org/ws/2",
   headers: {
