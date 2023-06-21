@@ -2,28 +2,26 @@ import { Link, Route, useParams } from "@tanstack/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { CoverArtArchive, MusicBrainz } from "../../utilities/axios";
+import { MusicBrainz } from "../../utilities/axios";
+import { formatDate } from "../../utilities/date";
+import { artistRoute } from "../artist/Artist";
 
 import { rootRoute } from "../../router";
 
 import Flair from "../../components/flair/Flair";
 import SVG from "../../components/SVG";
+import AlbumCoverArt from "../../components/album-cover-art/AlbumCoverArt";
 
 import BaseLayout from "../../layout/base-layout/BaseLayout";
 
 import CSS from "./Album.module.scss";
 
 import type { AxiosResponse } from "axios";
-import type {
-  CoverArtArchiveResponse,
-  Thumbnails,
-} from "../../types/api/CoverArtArchive";
 import type { Release_Release } from "../../types/api/MusicBrainz";
 
 export default function Album() {
   const { albumId } = useParams();
 
-  const [coverArt, setCoverArt] = useState<Thumbnails>(null);
   const [album, setAlbum] = useState<Release_Release>(null);
 
   const albumReleaseDate = getAlbumReleaseDate();
@@ -33,8 +31,12 @@ export default function Album() {
   const albumNumberOfSongs = getAlbumNumberOfSongs();
   const albumTotalLengthInMinutes = getAlbumTotalLength();
 
-  const coverArtSrcSet = `${coverArt?.[250]} 250w, ${coverArt?.[500]} 500w, ${coverArt?.[1200]} 1200w`;
-  const coverArtSizes = `(max-width: 700px) 100vw, 33vw`;
+  const linkParams = {
+    artistName: album?.["artist-credit"][0].name
+      .replaceAll(" ", "-")
+      .toLowerCase(),
+    artistId: album?.["artist-credit"][0].artist.id,
+  };
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -64,27 +66,6 @@ export default function Album() {
       }
     })();
 
-    // Fetch album's cover art
-    void (async function fetchAlbumCoverArt() {
-      try {
-        const response = await CoverArtArchive.get<
-          null,
-          AxiosResponse<CoverArtArchiveResponse>
-        >(albumId, {
-          signal,
-        });
-        const responseOk = response.status >= 200 && response.status <= 299;
-
-        if (responseOk) {
-          setCoverArt(response.data.images[0].thumbnails);
-        }
-      } catch (error) {
-        if (!axios.isCancel(error)) {
-          console.error(error);
-        }
-      }
-    })();
-
     return () => {
       abortController.abort();
     };
@@ -106,6 +87,7 @@ export default function Album() {
     }
 
     return (
+      // TODO: link to respective song page
       <Link className={CSS.track} key={track.id}>
         <span className={CSS.trackPosition}>{track.position}</span>
         <span className={CSS.trackTitle}>{track.title}</span>
@@ -119,32 +101,29 @@ export default function Album() {
       <div className={CSS.container}>
         <div className={CSS.main}>
           {/* Artist back link */}
-          {/* TODO: link to artist page */}
-          <Link className={CSS.artistBackLink}>
+          <Link
+            to={artistRoute.path}
+            params={linkParams}
+            className={CSS.artistBackLink}
+          >
             <SVG name="chevron-left" />
             <span>{albumArtist}</span>
           </Link>
 
-          <div className={CSS.heroContainer}>
-            {coverArt && (
-              <img
-                className={CSS.coverArt}
-                src={coverArt[250]}
-                alt=""
-                srcSet={coverArtSrcSet}
-                sizes={coverArtSizes}
-                width="250"
-                height="250"
+          {album && (
+            <div className={CSS.heroContainer}>
+              <AlbumCoverArt
+                albumId={album.id}
+                htmlSizes="(max-width: 700px) 100vw, 33vw"
               />
-            )}
-            {album && (
+
               <div className={CSS.albumInfoContainer}>
                 <span className={CSS.albumTitle}>{album.title}</span>
                 <span className={CSS.albumArtist}>{albumArtist}</span>
                 <span className={CSS.albumReleaseYear}>{albumReleaseYear}</span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <Flair />
 
@@ -173,10 +152,7 @@ export default function Album() {
   // ********************************************************
 
   function getAlbumReleaseDate() {
-    const formatOptions: Intl.DateTimeFormatOptions = { dateStyle: "long" };
-    const dateFormatter = new Intl.DateTimeFormat("en-US", formatOptions);
-
-    return album && dateFormatter.format(new Date(album.date));
+    return album && formatDate(album.date, "long");
   }
 
   function getAlbumReleaseYear() {

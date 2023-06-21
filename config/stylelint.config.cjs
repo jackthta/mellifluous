@@ -24,6 +24,7 @@ module.exports = {
 
     "selector-class-pattern": null,
     "font-family-no-missing-generic-family-keyword": null,
+    "no-descending-specificity": null,
 
     // SCSS rules
     "scss/no-global-function-names": null,

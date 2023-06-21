@@ -8,7 +8,9 @@
     "noEmit": true,
     // Appease IDE TS highlighted error:
     // "Cannot use JSX unless the '--jsx' flag is provided."
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    // Source: https://www.typescriptlang.org/tsconfig#downlevelIteration
+    "downlevelIteration": true
   },
   "include": ["src/**/*", "./globals.d.ts"]
 }

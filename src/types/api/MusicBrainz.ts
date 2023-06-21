@@ -29,7 +29,7 @@ type Recording_Recording_Release = {
   country: string;
   "track-count": number;
   "release-group": Recording_Recording_Release_ReleaseGroup;
-  "release-events": Recording_Recording_Release_ReleaseEvent[];
+  "release-events": ReleaseEvent[];
 
   media: Recording_Recording_Release_Media[];
 };
@@ -37,18 +37,6 @@ type Recording_Recording_Release = {
 type Recording_Recording_Release_ReleaseGroup = {
   id: string;
   "primary-type": string;
-};
-
-type Recording_Recording_Release_ReleaseEvent = {
-  date: string;
-  area: Recording_Recording_Release_ReleaseEvent_Area;
-};
-
-type Recording_Recording_Release_ReleaseEvent_Area = {
-  id: string;
-  name: string;
-  "sort-name": string;
-  "iso-3166-1-codes": string[];
 };
 
 type Recording_Recording_Release_Media = {
@@ -160,7 +148,7 @@ export type Artist = Entity & {
   artists: Artist_Artist[];
 };
 
-type Artist_Artist = {
+export type Artist_Artist = {
   id: string;
   type?: "Person" | "Group";
   score: string;
@@ -173,6 +161,10 @@ type Artist_Artist = {
   "life-span": Artist_Artist_LifeSpan;
   aliases: Alias[];
   tags: Artist_Artist_Tag[];
+  genres?: Genre[];
+  relations?: Artist_Artist_Relation[];
+  releases?: Artist_Artist_Release[];
+  "release-groups"?: ReleaseGroup[];
 };
 
 type Artist_Artist_Area = {
@@ -182,7 +174,7 @@ type Artist_Artist_Area = {
 };
 
 type Artist_Artist_LifeSpan = {
-  being: string;
+  begin: string;
   end: string;
   ended: boolean;
 };
@@ -190,6 +182,81 @@ type Artist_Artist_LifeSpan = {
 type Artist_Artist_Tag = {
   count: number;
   name: string;
+};
+
+export type Artist_Artist_Relation = {
+  type:
+    | "allmusic"
+    | "bandsintown"
+    | "discogs"
+    | "free streaming"
+    | "last.fm"
+    | "lyrics"
+    | "official homepage"
+    | "other databases"
+    | "purchase for download"
+    | "setlistfm"
+    | "social network"
+    | "songkick"
+    | "soundcloud"
+    | "streaming"
+    | "VIAF"
+    | "wikidata"
+    | "youtube";
+  "type-id": string;
+  url: {
+    id: string;
+    resource: string;
+  };
+  direction: string;
+  ended: boolean;
+  "source-credit": string;
+  "target-credit": string;
+  "target-type": string;
+
+  // Documentation doesn't cover what kind of types these properties contain
+  "attribute-ids": object;
+  "attribute-values": object;
+  attributes: [];
+  begin: any;
+  end: any;
+};
+
+type Artist_Artist_Release = {
+  id: string;
+  title: string;
+  date: string;
+  genres: [];
+
+  country: string;
+  disambiguation: string;
+  barcode: string;
+  packaging: string;
+  "packaging-id": string;
+  quality: string;
+  "release-events": ReleaseEvent[];
+  "release-group": ReleaseGroup;
+  status: string;
+  "status-id": string;
+  "text-representation": { language: string; script: string };
+};
+
+export type ReleaseGroup = {
+  id: string;
+  title: string;
+  "primary-type": string;
+  "primary-type-id": string;
+  "first-release-date": string;
+  genres: Genre[];
+  disambiguation: string;
+  releases?: Release_Release[];
+
+  // Documentation doesn't cover what kind of types these properties contain
+  "secondary-type": [];
+  "secondary-type-ids": [];
+
+  // Not returned from API; just for app use
+  "release-id": string | null;
 };
 
 type Alias = {
@@ -211,4 +278,23 @@ type ArtistCredit = {
   };
   joinphrase?: string;
   name: string;
+};
+
+type Genre = {
+  id: string;
+  count: number;
+  disambiguation: string;
+  name: string;
+};
+
+type ReleaseEvent = {
+  date: string;
+  area: ReleaseEvent_Area;
+};
+
+type ReleaseEvent_Area = {
+  id: string;
+  name: string;
+  "sort-name": string;
+  "iso-3166-1-codes": string[];
 };

@@ -4,6 +4,8 @@ import axios from "axios";
 import * as country from "country-list";
 
 import { rootRoute } from "../../router";
+import { albumRoute } from "../album/Album";
+import { artistRoute } from "../artist/Artist";
 import { MusicBrainz } from "../../utilities/axios";
 
 import Flair from "../../components/flair/Flair";
@@ -16,6 +18,7 @@ import CSS from "./SearchResults.module.scss";
 import type { AxiosError } from "axios";
 import type {
   Artist,
+  Artist_Artist,
   Recording,
   Release,
   Release_Release,
@@ -27,7 +30,7 @@ type EntityString = "recording" | "release" | "artist";
 
 export default function SearchResults() {
   const tableWrapperRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: rootRoute.path });
   const { type, name, artist } = useSearch({
     from: searchResultsRoute.id,
   });
@@ -55,6 +58,7 @@ export default function SearchResults() {
 
   const onNavigateToParticularPage = (clickedSearchResultIndex: number) => {
     let destination: string;
+    let params;
 
     switch (type) {
       case "song":
@@ -62,25 +66,46 @@ export default function SearchResults() {
         break;
 
       case "album": {
+        destination = albumRoute.path;
+
         const album = searchResults[`${entity}s`][
           clickedSearchResultIndex
         ] as Release_Release;
-        const albumTitle = album.title.replaceAll(" ", "-").toLowerCase();
+        const albumName = album.title.replaceAll(" ", "-").toLowerCase();
 
-        destination = `/album/${albumTitle}/${album.id}`;
+        params = {
+          albumName,
+          albumId: album.id,
+        };
 
         break;
       }
 
-      case "artist":
-        // TODO: set to artist route
+      case "artist": {
+        destination = artistRoute.path;
+
+        const artist = searchResults[`${entity}s`][
+          clickedSearchResultIndex
+        ] as Artist_Artist;
+        const artistName = artist.name.replaceAll(" ", "-").toLowerCase();
+
+        params = {
+          artistName,
+          artistId: artist.id,
+        };
+
         break;
+      }
 
       default:
         return;
     }
 
-    void navigate({ to: destination, from: rootRoute.path });
+    void navigate({
+      to: destination,
+      params,
+      search: null,
+    });
   };
 
   const onLoadMoreSearchResults = () => setPage(page + 1);

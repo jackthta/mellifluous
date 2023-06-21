@@ -2,7 +2,7 @@
   <mask id="a" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="552">
     <path d="M1280 0H0v552h1280V0Z" fill="#fff" />
   </mask>
-  <g mask="url(#a)" stroke="#FBF4F4" stroke-width="2">
+  <g mask="url(#a)" stroke="#F9ECED" stroke-width="2">
     <path
       d="M811.913 609.29c82.094-.153 133.04-29.848 323.657-42.565 190.61-12.716 208.24-246.146 323.65-270.48M476.7 637.028c142.167-51.177 143.747-387.856 347.927-401.048 204.183-13.192 173.966 69 347.933 69 173.96 0 258.09-68.443 347.93-69" />
     <path

@@ -8,6 +8,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ReactRefreshBabelPlugin from "react-refresh/babel";
+import DotEnvPlugin from "dotenv-webpack";
 
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
@@ -106,9 +107,17 @@ export default {
         ],
       },
 
+      // TODO:
+      // "asset/source" for flag SVGs
+      // "asset/resource" for background pattern SVG
+      // Solution: probably figuring out how to create a regex
+      // that tests for SVG parent directory to differentiate with
+      // two test cases
+      // Source: https://webpack.js.org/guides/asset-modules/
+
       {
         test: /\.svg$/,
-        type: "asset/resource",
+        type: "asset/source",
       },
     ],
   },
@@ -120,6 +129,8 @@ export default {
   },
 
   plugins: [
+    new DotEnvPlugin(),
+
     new HtmlWebpackPlugin({
       // Pass in your own `index.html` where
       // webpack will automatically inject the
