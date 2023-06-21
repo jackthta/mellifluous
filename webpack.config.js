@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import ReactRefreshBabelPlugin from "react-refresh/babel";
 
 // Workaround for using `__dirname` inside an ESM
 // Source: https://flaviocopes.com/fix-dirname-not-defined-es-module-scope/
@@ -64,6 +66,8 @@ export default {
             ],
             // Source: https://stackoverflow.com/a/68352125
             sourceType: "unambiguous",
+            // Source: https://github.com/pmmmwh/react-refresh-webpack-plugin#usage
+            plugins: [isDevelopment && ReactRefreshBabelPlugin].filter(Boolean),
           },
         },
       },
@@ -124,6 +128,15 @@ export default {
     }),
 
     !isDevelopment && new MiniCssExtractPlugin(),
+
+    // Source: https://github.com/pmmmwh/react-refresh-webpack-plugin#usage
+    isDevelopment &&
+      // Explicitly enable react-refresh's error overlay
+      // NOTE: "wds" is the default value for `overlay.sockIntegration`,
+      //  but wanted to include to make it clear that this is the source
+      //  of the error overlay.
+      // Source: https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/API.md#sockintegration
+      new ReactRefreshPlugin({ overlay: { sockIntegration: "wds" } }),
   ].filter(Boolean),
 
   resolve: {
@@ -138,12 +151,10 @@ export default {
   devServer: {
     static: buildOutDirectory,
     client: {
-      overlay: {
-        errors: true,
-        // Don't show full-screen overlay in browser
-        // when there are compiler warnings.
-        warnings: false,
-      },
+      // Disable webpack-dev-server's default error overlay in favor of
+      // react-refresh's
+      // Source: https://webpack.js.org/configuration/dev-server/#overlay
+      overlay: false,
     },
     hot: true,
     compress: true,
