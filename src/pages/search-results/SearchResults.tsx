@@ -528,7 +528,8 @@ export default function SearchResults() {
       <div className={CSS.container}>
         {searchResults && (
           <p id="table-summary" className={CSS.tableSummary}>
-            Found {searchResults.count} {type}s named &quot;{name}
+            Found {searchResults.count} {type}
+            {searchResults.count > 1 ? "s" : ""} named &quot;{name}
             &quot; {artist && `by ${artist}`}
           </p>
         )}
