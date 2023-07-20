@@ -107,16 +107,21 @@ export default {
         ],
       },
 
-      // TODO:
-      // "asset/source" for flag SVGs
-      // "asset/resource" for background pattern SVG
-      // Solution: probably figuring out how to create a regex
-      // that tests for SVG parent directory to differentiate with
-      // two test cases
+      // Use `asset/resource` module type to load
+      // background pattern svgs.
+      // "emits a separate file and exports the URL"
       // Source: https://webpack.js.org/guides/asset-modules/
-
       {
-        test: /\.svg$/,
+        test: /curve-line.*\.svg$/,
+        type: "asset/resource",
+      },
+
+      // Use `asset/source` module type to load
+      // flag svgs (need to inline flag svgs).
+      // "exports the source code of the asset"
+      // Source: https://webpack.js.org/guides/asset-modules/
+      {
+        test: /flags\/(\w{2})\.svg$/,
         type: "asset/source",
       },
     ],
